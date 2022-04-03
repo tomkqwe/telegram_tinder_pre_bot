@@ -25,7 +25,7 @@ public class TelegramFacade {
 
     public BotApiMethod<?> handleUpdate(Update update) {
         String inputMsg = getText(update);
-        int userId = Math.toIntExact(update.getUpdateId());
+        int userId = Math.toIntExact(getChatId(update));
         BotState botState;
         SendMessage replyMessage;
 //        Проверить логику работы свитчкейса получается пользователь у бота спрашивает про имя пол и тд?итд
@@ -64,4 +64,13 @@ public class TelegramFacade {
             return update.getMessage().getText();
         }
     }
+
+    private long getChatId(Update update){
+        if (update.hasCallbackQuery()){
+            return update.getCallbackQuery().getFrom().getId();
+        } else {
+            return update.getMessage().getChatId();
+        }
+    }
+
 }

@@ -36,7 +36,7 @@ public class FillingProfileHandler implements InputMessageHandler {
     }
 
     private SendMessage processUsersInput(Update update) {
-        int userId = Math.toIntExact(update.getUpdateId());
+        int userId = (int) getChatId(update);
         Long chatId = getChatId(update);
         User userProfileData = dataCache.getUserProfileData(userId);
         BotState botState = dataCache.getUsersCurrentBotState(userId);
