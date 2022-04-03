@@ -19,6 +19,7 @@ public class User {
     private String sex;
     private Integer age;
     private String description;
+    private String partnerSex;
     //сэты из видео, таблички он там делает в ручную
     private Set<User> whoChooseMe = new HashSet<>();
     private Set<User> whoDidIChoose = new HashSet<>();
@@ -31,6 +32,7 @@ public class User {
                 ", sex='" + sex + '\'' +
                 ", age=" + age +
                 ", description='" + description + '\'' +
+                ", partnerSex='" + partnerSex + '\'' +
                 ", whoChooseMe=" + whoChooseMe +
                 ", whoDidIChoose=" + whoDidIChoose +
                 '}';

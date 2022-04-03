@@ -1,5 +1,6 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -9,9 +10,10 @@ import java.util.Locale;
 @Service
 public class LocaleMessageService {
     private final Locale locale;
+    @Autowired
     private final MessageSource messageSource;
 
-    public LocaleMessageService(@Value("ru-RU") String localeTag, MessageSource messageSource) {
+    public LocaleMessageService(@Value("${localeTag}") String localeTag, MessageSource messageSource) {
         this.messageSource = messageSource;
         this.locale = Locale.forLanguageTag(localeTag);
     }

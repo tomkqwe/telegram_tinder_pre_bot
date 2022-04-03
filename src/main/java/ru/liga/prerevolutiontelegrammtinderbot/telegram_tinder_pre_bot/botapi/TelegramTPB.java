@@ -1,6 +1,7 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
@@ -18,6 +19,13 @@ public class TelegramTPB extends TelegramWebhookBot {
     private final String webHookPath = "bot.webHookPath";
     private final String botUserName = "bot.name";
     private final String botToken = "bot.token";
+    @Autowired
+    private TelegramFacade telegramFacade;
+
+    public TelegramTPB(TelegramFacade telegramFacade) {
+        this.telegramFacade = telegramFacade;
+    }
+
 
     @Override
     public String getBotUsername() {
@@ -31,18 +39,20 @@ public class TelegramTPB extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        if (update.getMessage() != null && update.getMessage().hasText()) {
-            long chat_id = update.getMessage().getChatId();
-            String s = update.getMessage().getChatId().toString();
-            try {
-                returnUserById(update,chat_id);
-                execute(new SendMessage(s, "Hi " + update.getMessage().getText()));
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }
+        SendMessage sendMessage = telegramFacade.handleUpdate(update);
+//        if (update.getMessage() != null && update.getMessage().hasText()) {
+//            long chat_id = update.getMessage().getChatId();
+//            String s = update.getMessage().getChatId().toString();
+//            try {
+////                returnUserById(update,chat_id);
+//                execute(new SendMessage(s, "Hi " + update.getMessage().getText()));
+//            } catch (TelegramApiException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
-        return null;
+        return sendMessage;
+//        return null;
     }
 
     @Override
