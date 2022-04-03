@@ -39,7 +39,7 @@ public class TelegramTPB extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        SendMessage sendMessage = telegramFacade.handleUpdate(update);
+        BotApiMethod<?> botApiMethod = telegramFacade.handleUpdate(update);
 //        if (update.getMessage() != null && update.getMessage().hasText()) {
 //            long chat_id = update.getMessage().getChatId();
 //            String s = update.getMessage().getChatId().toString();
@@ -51,7 +51,7 @@ public class TelegramTPB extends TelegramWebhookBot {
 //            }
 //        }
 
-        return sendMessage;
+        return botApiMethod;
 //        return null;
     }
 

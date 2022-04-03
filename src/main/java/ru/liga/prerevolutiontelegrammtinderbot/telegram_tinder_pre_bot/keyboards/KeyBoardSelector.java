@@ -23,23 +23,35 @@ public class KeyBoardSelector {
     }
 
     private static InlineKeyboardMarkup getPartnerSexKeyboard() {
-        InlineKeyboardMarkup keyboard = getSexKeyboard();
-        InlineKeyboardButton inlineKeyboardSexButton = new InlineKeyboardButton();
-        inlineKeyboardSexButton.setText("М");
-        inlineKeyboardSexButton.setCallbackData("Мужской");
-        keyboard.getKeyboard().get(0).add(inlineKeyboardSexButton);
-        return keyboard;
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+        InlineKeyboardButton inlineKeyboardSexButton1 = new InlineKeyboardButton();
+        inlineKeyboardSexButton1.setText("М");
+        inlineKeyboardSexButton1.setCallbackData("ищу Мужчин");
+        InlineKeyboardButton inlineKeyboardSexButton2 = new InlineKeyboardButton();
+        inlineKeyboardSexButton2.setText("Ж");
+        inlineKeyboardSexButton2.setCallbackData("ищу Женщин");
+        InlineKeyboardButton inlineKeyboardSexButton3 = new InlineKeyboardButton();
+        inlineKeyboardSexButton3.setText("ищу Всех");
+        inlineKeyboardSexButton3.setCallbackData("Все");
+        List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
+        keyboardButtonsRow.add(inlineKeyboardSexButton1);
+        keyboardButtonsRow.add(inlineKeyboardSexButton2);
+        keyboardButtonsRow.add(inlineKeyboardSexButton3);
+        rowList.add(keyboardButtonsRow);
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
     }
 
     private static InlineKeyboardMarkup getSexKeyboard() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         InlineKeyboardButton inlineKeyboardSexButton1 = new InlineKeyboardButton();
-        inlineKeyboardSexButton1.setText("М");
+        inlineKeyboardSexButton1.setText("Сударь");
         inlineKeyboardSexButton1.setCallbackData("Мужской");
         InlineKeyboardButton inlineKeyboardSexButton2 = new InlineKeyboardButton();
-        inlineKeyboardSexButton2.setText("М");
-        inlineKeyboardSexButton2.setCallbackData("Мужской");
+        inlineKeyboardSexButton2.setText("Сударыня");
+        inlineKeyboardSexButton2.setCallbackData("Женский");
         List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
         keyboardButtonsRow.add(inlineKeyboardSexButton1);
         keyboardButtonsRow.add(inlineKeyboardSexButton2);

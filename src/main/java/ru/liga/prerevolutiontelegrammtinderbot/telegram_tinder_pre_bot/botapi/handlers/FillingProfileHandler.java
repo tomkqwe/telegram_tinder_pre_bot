@@ -52,7 +52,9 @@ public class FillingProfileHandler  implements InputMessageHandler {
         }
         if (botState.equals(BotState.ASK_NAME)){
             userProfileData.setSex(userAnswer);
-            replyToUser = messageService.getReplyMessage(chatId.toString(),"ask.name");
+            if (userProfileData.getName() == null) {
+                replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.name");
+            }
             dataCache.setUsersCurrentBotState(userId,BotState.ASK_AGE);
         }
         if (botState.equals(BotState.ASK_AGE)){
@@ -68,7 +70,7 @@ public class FillingProfileHandler  implements InputMessageHandler {
         if (botState.equals(BotState.ASK_PARTNER_GENDER)){
             userProfileData.setDescription(userAnswer);
             replyToUser = messageService.getReplyMessage(chatId.toString(),"ask.partnerGender");
-            replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_GENDER));
+            replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_PARTNER_GENDER));
             dataCache.setUsersCurrentBotState(userId,BotState.PROFILE_FILLED);
         }
         if (botState.equals(BotState.PROFILE_FILLED)){
