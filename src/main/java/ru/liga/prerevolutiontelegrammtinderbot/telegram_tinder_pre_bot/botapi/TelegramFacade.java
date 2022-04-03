@@ -65,7 +65,7 @@ public class TelegramFacade {
             User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
             userProfileData.setSex("Сударыня");
             userDataCache.saveUserProfileData(Math.toIntExact(id), userProfileData);
-            userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.ASK_NAME);
+            userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.ASK_AGE);
             String sex = userDataCache.getUserProfileData(Math.toIntExact(id)).getSex();
             callBackAnswer = new SendMessage(chatId.toString(), "Как вас величать?"+sex);
 
