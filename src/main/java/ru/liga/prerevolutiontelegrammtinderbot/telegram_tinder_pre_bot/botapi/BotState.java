@@ -16,6 +16,4 @@ public enum BotState {
     GET_FAVORITES,
     SHOW_MAIN_MENU,
     INFO;
-
-
 }

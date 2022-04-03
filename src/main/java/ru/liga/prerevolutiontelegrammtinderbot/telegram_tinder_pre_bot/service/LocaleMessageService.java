@@ -10,7 +10,6 @@ import java.util.Locale;
 @Service
 public class LocaleMessageService {
     private final Locale locale;
-    @Autowired
     private final MessageSource messageSource;
 
     public LocaleMessageService(@Value("${localeTag}") String localeTag, MessageSource messageSource) {
@@ -19,6 +18,7 @@ public class LocaleMessageService {
     }
 
     public String getMessage(String message) {
+        String message1 = message;
         return messageSource.getMessage(message, null, locale);
     }
 
