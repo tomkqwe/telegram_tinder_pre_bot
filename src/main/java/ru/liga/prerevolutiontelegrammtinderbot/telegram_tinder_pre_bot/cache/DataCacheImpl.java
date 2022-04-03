@@ -1,12 +1,14 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache;
 
+import org.springframework.stereotype.Component;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@Component
 public class DataCacheImpl implements DataCache {
+
     private Map<Integer, BotState> usersBotStates = new HashMap<>();
     private Map<Integer, User> usersProfileData = new HashMap<>();
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 
 /**
  * @author Sergei Viacheslaev
@@ -15,12 +16,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 public class TelegramFacade {
     private BotStateContext botStateContext;
-//    private UserDataCache userDataCache;
+    private DataCache userDataCache;
 
-//    public TelegramFacade(BotStateContext botStateContext, UserDataCache userDataCache) {
-//        this.botStateContext = botStateContext;
-//        this.userDataCache = userDataCache;
-//    }
+    public TelegramFacade(BotStateContext botStateContext, DataCache userDataCache) {
+        this.botStateContext = botStateContext;
+        this.userDataCache = userDataCache;
+    }
 
     public SendMessage handleUpdate(Update update) {
         SendMessage replyMessage = null;
@@ -37,7 +38,7 @@ public class TelegramFacade {
 
     private SendMessage handleInputMessage(Message message) {
         String inputMsg = message.getText();
-//        int userId = message.getFrom().getId();
+        int userId = Math.toIntExact(message.getFrom().getId());
         BotState botState;
         SendMessage replyMessage;
 
@@ -63,7 +64,7 @@ public class TelegramFacade {
                 break;
         }
 
-//        userDataCache.setUsersCurrentBotState(userId, botState);
+        userDataCache.setUsersCurrentBotState(userId, botState);
 
         replyMessage = botStateContext.processInputMessage(botState, message);
 
