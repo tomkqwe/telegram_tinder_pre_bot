@@ -37,7 +37,7 @@ public class FillingProfileHandler implements InputMessageHandler {
 
     private SendMessage processUsersInput(Update update) {
         int userId = Math.toIntExact(update.getUpdateId());
-        Long chatId = update.getChannelPost().getChatId();
+        Long chatId = getChatId(update);
         User userProfileData = dataCache.getUserProfileData(userId);
         BotState botState = dataCache.getUsersCurrentBotState(userId);
 
@@ -101,6 +101,14 @@ public class FillingProfileHandler implements InputMessageHandler {
             return update.getCallbackQuery().getData();
         } else {
             return update.getMessage().getText();
+        }
+    }
+
+    private long getChatId(Update update){
+        if (update.hasCallbackQuery()){
+            return update.getCallbackQuery().getFrom().getId();
+        } else {
+            return update.getMessage().getChatId();
         }
     }
 }
