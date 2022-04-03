@@ -24,7 +24,7 @@ public class TelegramFacade {
     }
 
     public BotApiMethod<?> handleUpdate(Update update) {
-        String inputMsg = update.getMessage().getText();
+        String inputMsg = getText(update);
         int userId = Math.toIntExact(update.getMessage().getFrom().getId());
         BotState botState;
         SendMessage replyMessage;
@@ -55,5 +55,13 @@ public class TelegramFacade {
         replyMessage = botStateContext.processInputMessage(botState, update);
 
         return replyMessage;
+    }
+
+    private String getText(Update update){
+        if (update.hasCallbackQuery()){
+            return update.getCallbackQuery().getData();
+        } else {
+            return update.getMessage().getText();
+        }
     }
 }

@@ -52,29 +52,28 @@ public class FillingProfileHandler implements InputMessageHandler {
         if (botState.equals(BotState.ASK_NAME)) {
             replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.name");
             String userAnswer;
-            if (update.getCallbackQuery().getData().equals("Мужской")) {
+            if (getText(update).equals("Мужской")) {
                 userAnswer = "Сударь";
             } else {
                 userAnswer = "Сударыня";
             }
             userProfileData.setSex(userAnswer);
             dataCache.setUsersCurrentBotState(userId, BotState.ASK_AGE);
-
         }
         if (botState.equals(BotState.ASK_AGE)) {
-            String userAnswer = update.getMessage().getText();
+            String userAnswer = getText(update);
             userProfileData.setName(userAnswer);
             replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.age");
             dataCache.setUsersCurrentBotState(userId, BotState.ASK_DESCRIPTION);
         }
         if (botState.equals(BotState.ASK_DESCRIPTION)) {
-            String userAnswer = update.getMessage().getText();
+            String userAnswer = getText(update);
             userProfileData.setAge(Integer.parseInt(userAnswer));
             replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.description");
             dataCache.setUsersCurrentBotState(userId, BotState.ASK_PARTNER_GENDER);
         }
         if (botState.equals(BotState.ASK_PARTNER_GENDER)) {
-            String userAnswer = update.getMessage().getText();
+            String userAnswer = getText(update);
             userProfileData.setDescription(userAnswer);
             replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.partnerGender");
             replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_PARTNER_GENDER));
@@ -82,7 +81,7 @@ public class FillingProfileHandler implements InputMessageHandler {
         }
         if (botState.equals(BotState.PROFILE_FILLED)) {
             String userAnswer;
-            if (update.getCallbackQuery().getData().equals("ищу Мужчин")) {
+            if (getText(update).equals("ищу Мужчин")) {
                 userAnswer = "Судари";
             } else if (update.getCallbackQuery().getData().equals("ищу Женщин")) {
                 userAnswer = "Сударыни";
@@ -96,5 +95,13 @@ public class FillingProfileHandler implements InputMessageHandler {
 
         dataCache.saveUserProfileData(userId, userProfileData);
         return replyToUser;
+    }
+
+    private String getText(Update update){
+        if (update.hasCallbackQuery()){
+            return update.getCallbackQuery().getData();
+        } else {
+            return update.getMessage().getText();
+        }
     }
 }
