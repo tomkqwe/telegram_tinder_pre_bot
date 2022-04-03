@@ -46,8 +46,8 @@ public class FillingProfileHandler  implements InputMessageHandler {
         SendMessage replyToUser = null;
 
         if (botState.equals(BotState.ASK_GENDER)){
-            replyToUser = messageService.getReplyMessage(chatId.toString(),"ask.gender",
-                    KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_GENDER));
+            replyToUser = messageService.getReplyMessage(chatId.toString(),"ask.gender");
+            replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_GENDER));
             dataCache.setUsersCurrentBotState(userId,BotState.ASK_NAME);
         }
         if (botState.equals(BotState.ASK_NAME)){
@@ -67,8 +67,8 @@ public class FillingProfileHandler  implements InputMessageHandler {
         }
         if (botState.equals(BotState.ASK_PARTNER_GENDER)){
             userProfileData.setDescription(userAnswer);
-            replyToUser = messageService.getReplyMessage(chatId.toString(),"ask.partnerGender",
-                    KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_PARTNER_GENDER));
+            replyToUser = messageService.getReplyMessage(chatId.toString(),"ask.partnerGender");
+            replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_GENDER));
             dataCache.setUsersCurrentBotState(userId,BotState.PROFILE_FILLED);
         }
         if (botState.equals(BotState.PROFILE_FILLED)){
