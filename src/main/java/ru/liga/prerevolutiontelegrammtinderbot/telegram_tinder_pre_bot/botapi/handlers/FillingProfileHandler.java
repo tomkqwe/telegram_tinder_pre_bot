@@ -24,8 +24,8 @@ public class FillingProfileHandler implements InputMessageHandler {
 
     @Override
     public SendMessage handle(Update update) {
-        if (dataCache.getUsersCurrentBotState(Math.toIntExact(update.getMessage().getFrom().getId())).equals(BotState.FILLING_PROFILE)) {
-            dataCache.setUsersCurrentBotState(Math.toIntExact(update.getMessage().getFrom().getId()), BotState.ASK_GENDER);
+        if (dataCache.getUsersCurrentBotState(Math.toIntExact(update.getUpdateId())).equals(BotState.FILLING_PROFILE)) {
+            dataCache.setUsersCurrentBotState(Math.toIntExact(update.getUpdateId()), BotState.ASK_GENDER);
         }
         return processUsersInput(update);
     }
@@ -36,8 +36,7 @@ public class FillingProfileHandler implements InputMessageHandler {
     }
 
     private SendMessage processUsersInput(Update update) {
-        int userId = Math.toIntExact(update.getMessage().getFrom().getId());
-        Long chatId = update.getMessage().getChatId();
+        int userId = Math.toIntExact(update.getUpdateId());
 
         User userProfileData = dataCache.getUserProfileData(userId);
         BotState botState = dataCache.getUsersCurrentBotState(userId);
@@ -45,12 +44,12 @@ public class FillingProfileHandler implements InputMessageHandler {
         SendMessage replyToUser = null;
 
         if (botState.equals(BotState.ASK_GENDER)) {
-            replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.gender");
+            replyToUser = messageService.getReplyMessage(Long.toString((long) userId), "ask.gender");
             replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_GENDER));
             dataCache.setUsersCurrentBotState(userId, BotState.ASK_NAME);
         }
         if (botState.equals(BotState.ASK_NAME)) {
-            replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.name");
+            replyToUser = messageService.getReplyMessage(Long.toString((long) userId), "ask.name");
             String userAnswer;
             if (getText(update).equals("Мужской")) {
                 userAnswer = "Сударь";
@@ -63,19 +62,19 @@ public class FillingProfileHandler implements InputMessageHandler {
         if (botState.equals(BotState.ASK_AGE)) {
             String userAnswer = getText(update);
             userProfileData.setName(userAnswer);
-            replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.age");
+            replyToUser = messageService.getReplyMessage(Long.toString((long) userId), "ask.age");
             dataCache.setUsersCurrentBotState(userId, BotState.ASK_DESCRIPTION);
         }
         if (botState.equals(BotState.ASK_DESCRIPTION)) {
             String userAnswer = getText(update);
             userProfileData.setAge(Integer.parseInt(userAnswer));
-            replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.description");
+            replyToUser = messageService.getReplyMessage(Long.toString((long) userId), "ask.description");
             dataCache.setUsersCurrentBotState(userId, BotState.ASK_PARTNER_GENDER);
         }
         if (botState.equals(BotState.ASK_PARTNER_GENDER)) {
             String userAnswer = getText(update);
             userProfileData.setDescription(userAnswer);
-            replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.partnerGender");
+            replyToUser = messageService.getReplyMessage(Long.toString((long) userId), "ask.partnerGender");
             replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_PARTNER_GENDER));
             dataCache.setUsersCurrentBotState(userId, BotState.PROFILE_FILLED);
         }
@@ -90,7 +89,7 @@ public class FillingProfileHandler implements InputMessageHandler {
             }
             userProfileData.setPartnerSex(userAnswer);
             dataCache.setUsersCurrentBotState(userId, BotState.SHOW_MAIN_MENU);
-            replyToUser = new SendMessage(chatId.toString(), String.format("%s %s", "Данные по вашей анкете", userProfileData));
+            replyToUser = new SendMessage(Long.toString((long) userId), String.format("%s %s", "Данные по вашей анкете", userProfileData));
         }
 
         dataCache.saveUserProfileData(userId, userProfileData);
