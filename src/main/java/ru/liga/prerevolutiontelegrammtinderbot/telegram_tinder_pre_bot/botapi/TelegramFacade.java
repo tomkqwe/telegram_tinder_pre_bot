@@ -41,10 +41,10 @@ public class TelegramFacade {
         int userId = Math.toIntExact(message.getFrom().getId());
         BotState botState;
         SendMessage replyMessage;
-
+//        Проверить логику работы свитчкейса получается пользователь у бота спрашивает про имя пол и тд?итд
         switch (inputMsg) {
             case "/start":
-                botState = BotState.ASK_GENDER;
+                botState = BotState.FILLING_PROFILE;
                 break;
             case "Как вас величать?":
                 botState = BotState.ASK_NAME;
