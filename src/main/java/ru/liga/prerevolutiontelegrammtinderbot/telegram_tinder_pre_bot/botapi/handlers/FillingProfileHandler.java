@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
@@ -11,11 +14,15 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.Us
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.KeyBoardSelector;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.ReplyMessagesService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Component
 public class FillingProfileHandler  implements InputMessageHandler {
     private final DataCache dataCache;
     private final ReplyMessagesService messageService;
+
 
     public FillingProfileHandler(DataCache dataCache, ReplyMessagesService messageService) {
         this.dataCache = dataCache;
@@ -48,13 +55,12 @@ public class FillingProfileHandler  implements InputMessageHandler {
         if (botState.equals(BotState.ASK_GENDER)){
             replyToUser = messageService.getReplyMessage(chatId.toString(),"ask.gender");
             replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_GENDER));
-            dataCache.setUsersCurrentBotState(userId,BotState.ASK_NAME);
+            dataCache.setUsersCurrentBotState(userId,BotState.ASK_AGE);
         }
         if (botState.equals(BotState.ASK_NAME)){
-            userProfileData.setSex(userAnswer);
-            if (userProfileData.getName() == null) {
+//            userProfileData.setSex(userAnswer);
                 replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.name");
-            }
+
             dataCache.setUsersCurrentBotState(userId,BotState.ASK_AGE);
         }
         if (botState.equals(BotState.ASK_AGE)){
@@ -81,6 +87,31 @@ public class FillingProfileHandler  implements InputMessageHandler {
 
         dataCache.saveUserProfileData(userId,userProfileData);
         return replyToUser;
-
     }
+
+//    private InlineKeyboardMarkup getGenderButtonsMarkup() {
+//        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+//        InlineKeyboardButton buttonGenderMan = new InlineKeyboardButton();
+//        InlineKeyboardButton buttonGenderWoman = new InlineKeyboardButton();
+//
+//        buttonGenderMan.setText("Сударь");
+//        buttonGenderWoman.setText("Сударыня");
+//
+//        //Every button must have callBackData, or else not work !
+//        buttonGenderMan.setCallbackData("Сударь");
+//        buttonGenderWoman.setCallbackData("Сударыня");
+//
+//        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
+//        keyboardButtonsRow1.add(buttonGenderMan);
+//        keyboardButtonsRow1.add(buttonGenderWoman);
+//
+//        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+//        rowList.add(keyboardButtonsRow1);
+//
+//        inlineKeyboardMarkup.setKeyboard(rowList);
+//
+//        return inlineKeyboardMarkup;
+//    }
+
+
 }

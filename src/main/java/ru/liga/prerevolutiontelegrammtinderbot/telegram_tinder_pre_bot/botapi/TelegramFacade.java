@@ -29,16 +29,14 @@ public class TelegramFacade {
     public BotApiMethod<?> handleUpdate(Update update) {
 
         BotApiMethod<?> replyMessage = null;
+        Message message = update.getMessage();
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             log.info("New callbackQuery from User: {}, userId: {}, with data: {}", update.getCallbackQuery().getFrom().getUserName(),
                     callbackQuery.getFrom().getId(), update.getCallbackQuery().getData());
-            replyMessage=processCallbackQuery(callbackQuery);
+            replyMessage = processCallbackQuery(callbackQuery);
             return replyMessage;
-        }
-
-        Message message = update.getMessage();
-        if (message != null && message.hasText()) {
+        } else if (message != null && message.hasText()) {
             log.info("New message from User:{}, chatId: {},  with text: {}",
                     message.getFrom().getUserName(), message.getChatId(), message.getText());
             replyMessage = handleInputMessage(message);
@@ -51,29 +49,38 @@ public class TelegramFacade {
         BotApiMethod<?> callBackAnswer = null;
         Long chatId = callbackQuery.getMessage().getChatId();
         Long id = callbackQuery.getFrom().getId();
+        String data = callbackQuery.getData();
 
         if (callbackQuery.getData().equals("Мужской")) {
+//        if (callbackQuery.getData().equals("Сударь")) {
             User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
             userProfileData.setSex("Сударь");
             userDataCache.saveUserProfileData(Math.toIntExact(id), userProfileData);
-            userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.ASK_NAME);
-            callBackAnswer = new SendMessage(chatId.toString(), "Как вас величать?");
+            userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.ASK_AGE);//tut ispravil
+            String sex = userDataCache.getUserProfileData(Math.toIntExact(id)).getSex();
+            callBackAnswer = new SendMessage(chatId.toString(), "Как вас величать?"+ sex);
+
         } else if (callbackQuery.getData().equals("Женский")) {
+//        } else if (callbackQuery.getData().equals("Сударыня")) {
             User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
             userProfileData.setSex("Сударыня");
             userDataCache.saveUserProfileData(Math.toIntExact(id), userProfileData);
             userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.ASK_NAME);
-            callBackAnswer = new SendMessage(chatId.toString(), "Как вас величать?");
+            String sex = userDataCache.getUserProfileData(Math.toIntExact(id)).getSex();
+            callBackAnswer = new SendMessage(chatId.toString(), "Как вас величать?"+sex);
+
         } else if (callbackQuery.getData().equals("ищу Мужчин")) {
             User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
             userProfileData.setPartnerSex("Судари");
             userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.PROFILE_FILLED);
             callBackAnswer = new SendMessage(chatId.toString(), userProfileData.toString());
+
         } else if (callbackQuery.getData().equals("ищу Женщин")) {
             User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
             userProfileData.setPartnerSex("Сударыни");
             userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.PROFILE_FILLED);
             callBackAnswer = new SendMessage(chatId.toString(), userProfileData.toString());
+
         } else if (callbackQuery.getData().equals("Все")) {
             User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
             userProfileData.setPartnerSex("Все");
