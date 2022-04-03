@@ -46,12 +46,12 @@ public class TelegramFacade {
             case "/start":
                 botState = BotState.FILLING_PROFILE;
                 break;
-            case "Как вас величать?":
-                botState = BotState.ASK_NAME;
-                break;
-            case "Опишите себя":
-                botState = BotState.ASK_DESCRIPTION;
-                break;
+//            case "Как вас величать?":
+//                botState = BotState.ASK_NAME;
+//                break;
+//            case "Опишите себя":
+//                botState = BotState.ASK_DESCRIPTION;
+//                break;
             case "Поиск":
                 botState = BotState.GET_SEARCHING;
             case "Анкета":
@@ -60,8 +60,7 @@ public class TelegramFacade {
                 botState = BotState.GET_FAVORITES;
 
             default:
-                botState = BotState.INFO;
-                break;
+                botState = userDataCache.getUsersCurrentBotState(userId);
         }
 
         userDataCache.setUsersCurrentBotState(userId, botState);
