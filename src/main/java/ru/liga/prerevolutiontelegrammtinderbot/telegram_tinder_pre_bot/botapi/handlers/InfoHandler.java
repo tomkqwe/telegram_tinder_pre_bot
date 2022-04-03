@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.ReplyMessagesService;
@@ -18,8 +19,8 @@ public class InfoHandler implements InputMessageHandler {
     }
 
     @Override
-    public SendMessage handle(Message message) {
-        SendMessage replyMessage = messageService.getReplyMessage(message.getChatId().toString(), message.getText());
+    public SendMessage handle(Update update) {
+        SendMessage replyMessage = messageService.getReplyMessage(update.getMessage().getChatId().toString(), update.getMessage().getText());
         return replyMessage;
     }
 
