@@ -24,8 +24,8 @@ public class FillingProfileHandler implements InputMessageHandler {
 
     @Override
     public SendMessage handle(Update update) {
-        if (dataCache.getUsersCurrentBotState(Math.toIntExact(update.getMessage().getFrom().getId())).equals(BotState.FILLING_PROFILE)) {
-            dataCache.setUsersCurrentBotState(Math.toIntExact(update.getMessage().getFrom().getId()), BotState.ASK_GENDER);
+        if (dataCache.getUsersCurrentBotState(Math.toIntExact(update.getUpdateId())).equals(BotState.FILLING_PROFILE)) {
+            dataCache.setUsersCurrentBotState(Math.toIntExact(update.getUpdateId()), BotState.ASK_GENDER);
         }
         return processUsersInput(update);
     }
@@ -36,8 +36,8 @@ public class FillingProfileHandler implements InputMessageHandler {
     }
 
     private SendMessage processUsersInput(Update update) {
-        int userId = Math.toIntExact(update.getMessage().getFrom().getId());
-        Long chatId = update.getMessage().getChatId();
+        int userId = Math.toIntExact(update.getUpdateId());
+        Long chatId = update.getChannelPost().getChatId();
 
         User userProfileData = dataCache.getUserProfileData(userId);
         BotState botState = dataCache.getUsersCurrentBotState(userId);
