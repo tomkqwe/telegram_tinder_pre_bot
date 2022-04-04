@@ -4,7 +4,6 @@ package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi;
  */
 
 public enum BotState {
-    ASK_ACQUAINTANCE,
     ASK_GENDER,
     ASK_NAME,
     ASK_AGE,
@@ -16,5 +15,7 @@ public enum BotState {
     GET_CV,
     GET_FAVORITES,
     SHOW_MAIN_MENU,
+    SHOW_HELP_MENU,
+    SHOW_USER_PROFILE,
     INFO;
 }

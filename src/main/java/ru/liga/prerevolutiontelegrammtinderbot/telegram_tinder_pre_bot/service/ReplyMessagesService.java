@@ -20,4 +20,7 @@ public class ReplyMessagesService {
     public SendMessage getReplyMessage(String chatId, String replyMessage, Object... args) {
         return new SendMessage(chatId, messageService.getMessage(replyMessage, args));
     }
+    public String getReplyText(String replyText) {
+        return messageService.getMessage(replyText);
+    }
 }

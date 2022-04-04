@@ -18,7 +18,6 @@ public class LocaleMessageService {
     }
 
     public String getMessage(String message) {
-        String message1 = message;
         return messageSource.getMessage(message, null, locale);
     }
 

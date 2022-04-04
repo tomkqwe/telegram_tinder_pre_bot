@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.MainMenuService;
 
 /**
  * @author Sergei Viacheslaev
@@ -20,10 +21,12 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.Us
 public class TelegramFacade {
     private BotStateContext botStateContext;
     private DataCache userDataCache;
+    private MainMenuService mainMenuService;
 
-    public TelegramFacade(BotStateContext botStateContext, DataCache userDataCache) {
+    public TelegramFacade(BotStateContext botStateContext, DataCache userDataCache, MainMenuService mainMenuService) {
         this.botStateContext = botStateContext;
         this.userDataCache = userDataCache;
+        this.mainMenuService = mainMenuService;
     }
 
     public BotApiMethod<?> handleUpdate(Update update) {
@@ -46,46 +49,48 @@ public class TelegramFacade {
     }
 
     private BotApiMethod<?> processCallbackQuery(CallbackQuery callbackQuery) {
-        BotApiMethod<?> callBackAnswer = null;
         Long chatId = callbackQuery.getMessage().getChatId();
-        Long id = callbackQuery.getFrom().getId();
-        String data = callbackQuery.getData();
+        int id = Math.toIntExact(callbackQuery.getFrom().getId());
+        BotApiMethod<?> callBackAnswer = mainMenuService.getMainMenuMessage(chatId.toString(),"Воспользуйтесь главным меню");
+
 
         if (callbackQuery.getData().equals("Мужской")) {
 //        if (callbackQuery.getData().equals("Сударь")) {
-            User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
+            User userProfileData = userDataCache.getUserProfileData(id);
             userProfileData.setSex("Сударь");
-            userDataCache.saveUserProfileData(Math.toIntExact(id), userProfileData);
-            userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.ASK_AGE);//tut ispravil
-            String sex = userDataCache.getUserProfileData(Math.toIntExact(id)).getSex();
+            userDataCache.saveUserProfileData(id, userProfileData);
+            userDataCache.setUsersCurrentBotState(id, BotState.ASK_AGE);//tut ispravil
+            String sex = userDataCache.getUserProfileData(id).getSex();
             callBackAnswer = new SendMessage(chatId.toString(), "Как вас величать?"+ sex);
 
         } else if (callbackQuery.getData().equals("Женский")) {
 //        } else if (callbackQuery.getData().equals("Сударыня")) {
-            User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
+            User userProfileData = userDataCache.getUserProfileData(id);
             userProfileData.setSex("Сударыня");
-            userDataCache.saveUserProfileData(Math.toIntExact(id), userProfileData);
-            userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.ASK_AGE);
-            String sex = userDataCache.getUserProfileData(Math.toIntExact(id)).getSex();
+            userDataCache.saveUserProfileData(id, userProfileData);
+            userDataCache.setUsersCurrentBotState(id, BotState.ASK_AGE);
+            String sex = userDataCache.getUserProfileData(id).getSex();
             callBackAnswer = new SendMessage(chatId.toString(), "Как вас величать?"+sex);
 
         } else if (callbackQuery.getData().equals("ищу Мужчин")) {
-            User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
+            User userProfileData = userDataCache.getUserProfileData(id);
             userProfileData.setPartnerSex("Судари");
-            userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.PROFILE_FILLED);
-            callBackAnswer = new SendMessage(chatId.toString(), userProfileData.toString());
+            userDataCache.setUsersCurrentBotState(id, BotState.SHOW_MAIN_MENU);
+            callBackAnswer = new SendMessage(chatId.toString(), "Анкета заполнена!");
 
         } else if (callbackQuery.getData().equals("ищу Женщин")) {
-            User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
+            User userProfileData = userDataCache.getUserProfileData(id);
             userProfileData.setPartnerSex("Сударыни");
-            userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.PROFILE_FILLED);
-            callBackAnswer = new SendMessage(chatId.toString(), userProfileData.toString());
+            userDataCache.setUsersCurrentBotState(id, BotState.SHOW_MAIN_MENU);
+            callBackAnswer = new SendMessage(chatId.toString(), "Анкета заполнена!");
 
         } else if (callbackQuery.getData().equals("Все")) {
-            User userProfileData = userDataCache.getUserProfileData(Math.toIntExact(id));
+            User userProfileData = userDataCache.getUserProfileData(id);
             userProfileData.setPartnerSex("Все");
-            userDataCache.setUsersCurrentBotState(Math.toIntExact(id), BotState.PROFILE_FILLED);
-            callBackAnswer = new SendMessage(chatId.toString(), userProfileData.toString());
+            userDataCache.setUsersCurrentBotState(id, BotState.SHOW_MAIN_MENU);
+            callBackAnswer = new SendMessage(chatId.toString(), "Анкета заполнена!");
+        }else {
+            userDataCache.setUsersCurrentBotState(id,BotState.SHOW_MAIN_MENU);
         }
         return callBackAnswer;
     }
@@ -108,10 +113,16 @@ public class TelegramFacade {
 //                break;
             case "Поиск":
                 botState = BotState.GET_SEARCHING;
+                break;
             case "Анкета":
-                botState = BotState.GET_CV;
+                botState = BotState.SHOW_USER_PROFILE;
+                break;
             case "Любимцы":
                 botState = BotState.GET_FAVORITES;
+                break;
+            case "Помощь":
+                botState = BotState.SHOW_HELP_MENU;
+                break;
 
             default:
                 botState = userDataCache.getUsersCurrentBotState(userId);

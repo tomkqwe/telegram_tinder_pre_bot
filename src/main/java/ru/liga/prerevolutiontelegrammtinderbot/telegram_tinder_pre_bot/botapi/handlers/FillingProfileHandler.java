@@ -60,7 +60,6 @@ public class FillingProfileHandler  implements InputMessageHandler {
         if (botState.equals(BotState.ASK_NAME)){
 //            userProfileData.setSex(userAnswer);
                 replyToUser = messageService.getReplyMessage(chatId.toString(), "ask.name");
-
             dataCache.setUsersCurrentBotState(userId,BotState.ASK_AGE);
         }
         if (botState.equals(BotState.ASK_AGE)){
@@ -82,7 +81,8 @@ public class FillingProfileHandler  implements InputMessageHandler {
         if (botState.equals(BotState.PROFILE_FILLED)){
             userProfileData.setPartnerSex(userAnswer);
             dataCache.setUsersCurrentBotState(userId,BotState.SHOW_MAIN_MENU);
-            replyToUser = new SendMessage(chatId.toString(),String.format("%s %s","Данные по вашей анкете",userProfileData));
+//            replyToUser = new SendMessage(chatId.toString(),String.format("%s %s","Данные по вашей анкете",userProfileData));
+            replyToUser = messageService.getReplyMessage(chatId.toString(),"show.profileFilled");
         }
 
         dataCache.saveUserProfileData(userId,userProfileData);
