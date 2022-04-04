@@ -39,8 +39,7 @@ public class TelegramTPB extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        BotApiMethod<?> botApiMethod = telegramFacade.handleUpdate(update);
-//        if (update.getMessage() != null && update.getMessage().hasText()) {
+//                if (update.getMessage() != null && update.getMessage().hasText()) {
 //            long chat_id = update.getMessage().getChatId();
 //            String s = update.getMessage().getChatId().toString();
 //            try {
@@ -51,7 +50,7 @@ public class TelegramTPB extends TelegramWebhookBot {
 //            }
 //        }
 
-        return botApiMethod;
+        return telegramFacade.handleUpdate(update);
 //        return null;
     }
 
@@ -59,16 +58,16 @@ public class TelegramTPB extends TelegramWebhookBot {
     public String getBotPath() {
         return PropertiesUtil.get(webHookPath);
     }
-    private void returnUserById(Update update, Long chatId) throws TelegramApiException {
-        String s = update.getMessage().getText();
-        String[] split = s.split(" ");
-        int i = Integer.parseInt(split[1]);
-        execute(new SendMessage(chatId.toString(), getUserById(i).toString()));
-    }
-
-    private User getUserById(int id) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
-        Communication communication = context.getBean("communication", Communication.class);
-        return communication.getUser(id);
-    }
+//    private void returnUserById(Update update, Long chatId) throws TelegramApiException {
+//        String s = update.getMessage().getText();
+//        String[] split = s.split(" ");
+//        int i = Integer.parseInt(split[1]);
+//        execute(new SendMessage(chatId.toString(), getUserById(i).toString()));
+//    }
+//
+//    private User getUserById(int id) {
+//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
+//        Communication communication = context.getBean("communication", Communication.class);
+//        return communication.getUser(id);
+//    }
 }

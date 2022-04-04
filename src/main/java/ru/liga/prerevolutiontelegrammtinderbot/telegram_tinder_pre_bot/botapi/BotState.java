@@ -12,10 +12,10 @@ public enum BotState {
     FILLING_PROFILE,
     PROFILE_FILLED,
     GET_SEARCHING,
-    GET_CV,
     GET_FAVORITES,
     SHOW_MAIN_MENU,
     SHOW_HELP_MENU,
     SHOW_USER_PROFILE,
-    INFO;
+    INFO,
+
 }

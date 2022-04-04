@@ -3,6 +3,7 @@ package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.exceptions.AgeFormatException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ public class BotStateContext {
 
     public SendMessage processInputMessage(BotState currentState, Message message) {
         InputMessageHandler currentMessageHandler = findMessageHandler(currentState);
+
         return currentMessageHandler.handle(message);
     }
 

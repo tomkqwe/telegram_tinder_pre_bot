@@ -11,6 +11,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.Bo
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.exceptions.AgeFormatException;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.KeyBoardSelector;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.ReplyMessagesService;
 
@@ -68,7 +69,13 @@ public class FillingProfileHandler  implements InputMessageHandler {
             dataCache.setUsersCurrentBotState(userId,BotState.ASK_DESCRIPTION);
         }
         if (botState.equals(BotState.ASK_DESCRIPTION)){
-            userProfileData.setAge(Integer.parseInt(userAnswer));
+            try {
+                userProfileData.setAge(Integer.parseInt(userAnswer));
+            } catch (NumberFormatException e) {
+                dataCache.setUsersCurrentBotState(userId,BotState.ASK_DESCRIPTION);
+                return new SendMessage(chatId.toString(),"Возраст не может быть с буквами!\nВведите возраст еще раз!");
+            }
+
             replyToUser = messageService.getReplyMessage(chatId.toString(),"ask.description");
             dataCache.setUsersCurrentBotState(userId,BotState.ASK_PARTNER_GENDER);
         }
