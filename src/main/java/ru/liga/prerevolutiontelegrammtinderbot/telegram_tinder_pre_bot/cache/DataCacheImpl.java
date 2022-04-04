@@ -1,5 +1,6 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache;
 
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;

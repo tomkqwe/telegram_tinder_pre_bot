@@ -77,18 +77,21 @@ public class TelegramFacade {
             userProfileData.setPartnerSex("Судари");
             userDataCache.setUsersCurrentBotState(id, BotState.SHOW_MAIN_MENU);
             callBackAnswer = new SendMessage(chatId.toString(), "Анкета заполнена!");
+            userProfileData.setId(id);
 
         } else if (callbackQuery.getData().equals("ищу Женщин")) {
             User userProfileData = userDataCache.getUserProfileData(id);
             userProfileData.setPartnerSex("Сударыни");
             userDataCache.setUsersCurrentBotState(id, BotState.SHOW_MAIN_MENU);
             callBackAnswer = new SendMessage(chatId.toString(), "Анкета заполнена!");
+            userProfileData.setId(id);
 
         } else if (callbackQuery.getData().equals("Все")) {
             User userProfileData = userDataCache.getUserProfileData(id);
             userProfileData.setPartnerSex("Все");
             userDataCache.setUsersCurrentBotState(id, BotState.SHOW_MAIN_MENU);
             callBackAnswer = new SendMessage(chatId.toString(), "Анкета заполнена!");
+            userProfileData.setId(id);
         }else {
             userDataCache.setUsersCurrentBotState(id,BotState.SHOW_MAIN_MENU);
         }

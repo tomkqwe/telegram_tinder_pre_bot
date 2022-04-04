@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.configuration.MyConfig;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 @Getter
 @Slf4j
@@ -30,7 +32,6 @@ public class Communication {
     public User getUser(int id) {
         log.info("get user by "+id);
         return restTemplate.getForObject(URL + "/" + id, User.class);
-
     }
 
     public void saveUser(User user) {
@@ -44,7 +45,7 @@ public class Communication {
         }
     }
 
-    public void deleteEmployee(int id) {
+    public void deleteUser(int id) {
         restTemplate.delete(URL + "/" + id);
     }
 
