@@ -23,17 +23,13 @@ public class AskGenderHandler implements InputMessageHandler {
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
         int userID;
-//        String text;
         String chatId;
-
         if (update.hasCallbackQuery()) {
             CallbackQuery query = update.getCallbackQuery();
             userID = Math.toIntExact(query.getFrom().getId());
-//            text = query.getData();
             chatId = query.getFrom().getId().toString();
         } else {
             Message message = update.getMessage();
-//            text = message.getText();
             userID = Math.toIntExact(message.getFrom().getId());
             chatId = message.getChatId().toString();
         }
@@ -43,6 +39,7 @@ public class AskGenderHandler implements InputMessageHandler {
         SendMessage replyToUser = new SendMessage(chatId, "Вы сударь иль сударыня?");
         replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(getHandlerName()));
         dataCache.setUsersCurrentBotState(userID, BotState.ASK_NAME);
+        dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
         return replyToUser;
     }
 

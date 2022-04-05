@@ -34,6 +34,7 @@ public class AskDescription implements InputMessageHandler {
             return new SendMessage(chatID,"Возраст не может быть с буквами!\nПовторите ввод!");
         }
         dataCache.setUsersCurrentBotState(userID,BotState.ASK_PARTNER_GENDER);
+        dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
         return new SendMessage(chatID, "Опишите себя");
     }
     @Override

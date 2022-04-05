@@ -1,4 +1,4 @@
-package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service;
+package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayList;
 @Service
-public class MainMenuService {
+public class MainMenuKeyboard {
     public SendMessage getMainMenuMessage(final String chatId,final String textMessage){
         final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
         final SendMessage mainMenuMessage =

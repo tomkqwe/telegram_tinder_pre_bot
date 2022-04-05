@@ -3,30 +3,28 @@ package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.h
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.MainMenuService;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.ReplyMessagesService;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.MainMenuKeyboard;
+
 @Component
 public class HelpMenuHandler implements InputMessageHandler {
-    private MainMenuService mainMenuService;
-    private ReplyMessagesService messagesService;
+    private final MainMenuKeyboard mainMenuKeyboard;
 
-    public HelpMenuHandler(MainMenuService mainMenuService, ReplyMessagesService messagesService) {
-        this.mainMenuService = mainMenuService;
-        this.messagesService = messagesService;
+    public HelpMenuHandler(MainMenuKeyboard mainMenuKeyboard) {
+        this.mainMenuKeyboard = mainMenuKeyboard;
     }
-
-//    @Override
-//    public SendMessage handleTextMessage(Message message) {
-//        return mainMenuService.getMainMenuMessage(message.getChatId().toString(),messagesService.getReplyText("show.helpMenu"));
-//    }
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        return null;
+        String chatID;
+        if (update.hasMessage()) {
+            chatID = update.getMessage().getChatId().toString();
+        } else {
+            chatID = update.getCallbackQuery().getId();
+        }
+        return new SendMessage(chatID, "Тут должна быть помощь)");
     }
 
     @Override

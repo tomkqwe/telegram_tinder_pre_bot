@@ -29,11 +29,9 @@ public class AskNameHandler implements InputMessageHandler {
         if (update.hasCallbackQuery()) {
             CallbackQuery query = update.getCallbackQuery();
             userID = Math.toIntExact(query.getFrom().getId());
-//            text = query.getData();
             chatId = query.getFrom().getId().toString();
         } else {
             Message message = update.getMessage();
-//            text = message.getText();
             userID = Math.toIntExact(message.getFrom().getId());
             chatId = message.getChatId().toString();
         }
@@ -48,6 +46,7 @@ public class AskNameHandler implements InputMessageHandler {
             String data = update.getCallbackQuery().getData();
             userProfileData.setSex(data);
             dataCache.setUsersCurrentBotState(userID, BotState.ASK_AGE);
+            dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
         } else {
             sendMessage = new SendMessage(chatId, "Выберите пол!");
             sendMessage.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_GENDER));

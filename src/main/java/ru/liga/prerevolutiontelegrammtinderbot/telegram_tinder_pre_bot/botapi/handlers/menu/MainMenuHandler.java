@@ -3,30 +3,31 @@ package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.h
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.MainMenuService;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.ReplyMessagesService;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.MainMenuKeyboard;
+
 @Component
 public class MainMenuHandler implements InputMessageHandler {
-    private ReplyMessagesService messagesService;
-    private MainMenuService mainMenuService;
+    private MainMenuKeyboard mainMenuKeyboard;
 
-    public MainMenuHandler(ReplyMessagesService messagesService, MainMenuService mainMenuService) {
-        this.messagesService = messagesService;
-        this.mainMenuService = mainMenuService;
+    public MainMenuHandler(MainMenuKeyboard mainMenuKeyboard) {
+        this.mainMenuKeyboard = mainMenuKeyboard;
     }
 
-//    @Override
-//    public SendMessage handleTextMessage(Message message) {
-//        return mainMenuService.getMainMenuMessage(message.getChatId().toString(),messagesService.getReplyText("show.mainMenu"));
-//    }
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        return null;
+        String chatID;
+        if (update.hasMessage()) {
+            chatID = update.getMessage().getChatId().toString();
+        } else {
+            chatID = update.getCallbackQuery().getId();
+        }
+        SendMessage mainMenuMessage = mainMenuKeyboard.getMainMenuMessage(chatID, "это сообщение прилетает из глвного меню");
+        return mainMenuMessage;
+
     }
 
     @Override

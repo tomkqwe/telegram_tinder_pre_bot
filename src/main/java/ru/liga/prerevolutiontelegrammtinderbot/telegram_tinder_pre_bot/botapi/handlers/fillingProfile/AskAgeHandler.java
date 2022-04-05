@@ -27,7 +27,6 @@ public class AskAgeHandler implements InputMessageHandler {
         if (update.hasCallbackQuery()) {
             CallbackQuery query = update.getCallbackQuery();
             userID = Math.toIntExact(query.getFrom().getId());
-//            text = query.getData();
             chatID = query.getFrom().getId().toString();
         } else {
             Message message = update.getMessage();
@@ -39,6 +38,7 @@ public class AskAgeHandler implements InputMessageHandler {
         User userProfileData = dataCache.getUserProfileData(userID);
        //Получаем имя, сэтим его юзеру,спрашиваем про возраст,сэтить возраст будем в ASK_DESCRIPTION
         userProfileData.setName(text);
+        dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
         SendMessage sendMessage = new SendMessage(chatID,"Сколько вам лет?");
         dataCache.setUsersCurrentBotState(userID,BotState.ASK_DESCRIPTION);
         return sendMessage;

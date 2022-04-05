@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.MainMenuService;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.MainMenuKeyboard;
 
 /**
  * @author Sergei Viacheslaev
@@ -21,12 +21,12 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.M
 public class TelegramFacade {
     private BotStateContext botStateContext;
     private DataCache userDataCache;
-    private MainMenuService mainMenuService;
+    private MainMenuKeyboard mainMenuKeyboard;
 
-    public TelegramFacade(BotStateContext botStateContext, DataCache userDataCache, MainMenuService mainMenuService) {
+    public TelegramFacade(BotStateContext botStateContext, DataCache userDataCache, MainMenuKeyboard mainMenuKeyboard) {
         this.botStateContext = botStateContext;
         this.userDataCache = userDataCache;
-        this.mainMenuService = mainMenuService;
+        this.mainMenuKeyboard = mainMenuKeyboard;
     }
 
     public BotApiMethod<?> handleUpdate(Update update) {
@@ -48,7 +48,7 @@ public class TelegramFacade {
     private BotApiMethod<?> processCallbackQuery(CallbackQuery callbackQuery) {
         Long chatId = callbackQuery.getMessage().getChatId();
         int id = Math.toIntExact(callbackQuery.getFrom().getId());
-        BotApiMethod<?> callBackAnswer = mainMenuService.getMainMenuMessage(chatId.toString(),"Воспользуйтесь главным меню");
+        BotApiMethod<?> callBackAnswer = mainMenuKeyboard.getMainMenuMessage(chatId.toString(),"Воспользуйтесь главным меню");
 
 
         if (callbackQuery.getData().equals("Мужской")) {
