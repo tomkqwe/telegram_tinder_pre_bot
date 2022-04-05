@@ -1,6 +1,7 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi;
 
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
@@ -16,19 +17,19 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Pro
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Data
 @Component
 public class TelegramTPB extends TelegramWebhookBot {
     private final String webHookPath = "bot.webHookPath";
     private final String botUserName = "bot.name";
     private final String botToken = "bot.token";
     @Autowired
-    private TelegramFacade telegramFacade;
+//    private TelegramFacade telegramFacade;
+    private MyTelegramFacade telegramFacade;
 
-    public TelegramTPB(TelegramFacade telegramFacade) {
+    public TelegramTPB(MyTelegramFacade telegramFacade) {
         this.telegramFacade = telegramFacade;
     }
-
 
     @Override
     public String getBotUsername() {
@@ -51,8 +52,8 @@ public class TelegramTPB extends TelegramWebhookBot {
 //            long chat_id = update.getMessage().getChatId();
 //            String s = update.getMessage().getChatId().toString();
 //            try {
-//                returnUserById(update,chat_id);
-////                execute(new SendMessage(s, "Hi" + update.getMessage().getText()));
+////                returnUserById(update,chat_id);
+//                execute(new SendMessage(s, "Hi" + update.getMessage().getText()));
 //            } catch (TelegramApiException e) {
 //                e.printStackTrace();
 //            }
@@ -62,17 +63,17 @@ public class TelegramTPB extends TelegramWebhookBot {
 //        return null;
     }
 
-    private void returnUserById(Update update, Long chatId) throws TelegramApiException {
-        String s = update.getMessage().getText();
-        execute(new SendMessage(chatId.toString(), getAllUsers().toString()));
-    }
-//
-    private String getAllUsers() {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
-        Communication communication = context.getBean("communication", Communication.class);
-        List<User> allUsers = communication.getAllUsers();
-        return allUsers.stream().map(User::toString).collect(Collectors.joining("\n"));
-    }
+//    private void returnUserById(Update update, Long chatId) throws TelegramApiException {
+//        String s = update.getMessage().getText();
+//        execute(new SendMessage(chatId.toString(), getAllUsers().toString()));
+//    }
+////
+//    private String getAllUsers() {
+//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
+//        Communication communication = context.getBean("communication", Communication.class);
+//        List<User> allUsers = communication.getAllUsers();
+//        return allUsers.stream().map(User::toString).collect(Collectors.joining("\n"));
+//    }
 //
 //
 //    private void deleteNullUser() {

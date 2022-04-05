@@ -1,22 +1,17 @@
-package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.handlers;
+package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.handlers.fillingProfile;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.exceptions.AgeFormatException;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.KeyBoardSelector;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.service.ReplyMessagesService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -30,12 +25,17 @@ public class FillingProfileHandler  implements InputMessageHandler {
         this.messageService = messageService;
     }
 
-    @Override
-    public SendMessage handle(Message message) {
+
+    public SendMessage handleTextMessage(Message message) {
         if (dataCache.getUsersCurrentBotState(Math.toIntExact(message.getFrom().getId())).equals(BotState.FILLING_PROFILE)){
             dataCache.setUsersCurrentBotState(Math.toIntExact(message.getFrom().getId()),BotState.ASK_GENDER);
         }
         return processUsersInput(message);
+    }
+
+    @Override
+    public BotApiMethod<?> handleUpdate(Update update) {
+        return null;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class FillingProfileHandler  implements InputMessageHandler {
             userProfileData.setDescription(userAnswer);
             replyToUser = messageService.getReplyMessage(chatId.toString(),"ask.partnerGender");
             replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_PARTNER_GENDER));
-            dataCache.setUsersCurrentBotState(userId,BotState.PROFILE_FILLED);
+            dataCache.setUsersCurrentBotState(userId,BotState.SHOW_MAIN_MENU);
         }
         if (botState.equals(BotState.PROFILE_FILLED)){
             userProfileData.setPartnerSex(userAnswer);

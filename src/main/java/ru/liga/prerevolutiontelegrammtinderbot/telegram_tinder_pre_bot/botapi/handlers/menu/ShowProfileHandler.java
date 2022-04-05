@@ -1,14 +1,14 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.handlers.menu;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.configuration.MyConfig;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Communication;
 
@@ -26,19 +26,24 @@ public class ShowProfileHandler implements InputMessageHandler {
         this.communication = communication;
     }
 
+//    @Override
+//    public SendMessage handleTextMessage(Message message) {
+//        int id = Math.toIntExact(message.getFrom().getId());
+//        User userProfileData = dataCache.getUserProfileData(id);
+////        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
+////        Communication communication = context.getBean("communication", Communication.class);
+////        communication.saveUser(userProfileData);
+//
+//        dataCache.setUsersCurrentBotState(id,BotState.SHOW_MAIN_MENU);
+//
+//        return new SendMessage(message.getChatId().toString(), String.format("%s%n -------------------%nИмя: %s%nВозраст: %d%n Пол: %s%nОписание: %s%n" +
+//                        "Кого ищем: %s%n", "Данные по вашей анкете", userProfileData.getName(), userProfileData.getAge(), userProfileData.getSex(), userProfileData.getDescription(),
+//                userProfileData.getPartnerSex()));
+//    }
+
     @Override
-    public SendMessage handle(Message message) {
-        int id = Math.toIntExact(message.getFrom().getId());
-        User userProfileData = dataCache.getUserProfileData(id);
-//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
-//        Communication communication = context.getBean("communication", Communication.class);
-//        communication.saveUser(userProfileData);
-
-        dataCache.setUsersCurrentBotState(id,BotState.SHOW_MAIN_MENU);
-
-        return new SendMessage(message.getChatId().toString(), String.format("%s%n -------------------%nИмя: %s%nВозраст: %d%n Пол: %s%nОписание: %s%n" +
-                        "Кого ищем: %s%n", "Данные по вашей анкете", userProfileData.getName(), userProfileData.getAge(), userProfileData.getSex(), userProfileData.getDescription(),
-                userProfileData.getPartnerSex()));
+    public BotApiMethod<?> handleUpdate(Update update) {
+        return null;
     }
 
     @Override

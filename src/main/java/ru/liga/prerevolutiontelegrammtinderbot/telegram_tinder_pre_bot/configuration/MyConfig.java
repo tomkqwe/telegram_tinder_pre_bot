@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.client.RestTemplate;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.MyTelegramFacade;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.TelegramFacade;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.TelegramTPB;
 
@@ -16,10 +17,18 @@ public class MyConfig {
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
+
+
+
+//    @Bean
+//    public TelegramTPB myTelegramTPB(TelegramFacade telegramFacade){
+//        return new TelegramTPB(telegramFacade);
+//    }
     @Bean
-    public TelegramTPB myTelegramTPB(TelegramFacade telegramFacade){
+    public TelegramTPB myTelegramTPB(MyTelegramFacade telegramFacade){
         return new TelegramTPB(telegramFacade);
     }
+
     @Bean
     public MessageSource messageSource(){
         ReloadableResourceBundleMessageSource messageSource =

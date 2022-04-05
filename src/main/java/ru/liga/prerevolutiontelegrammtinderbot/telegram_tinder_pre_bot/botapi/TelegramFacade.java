@@ -37,14 +37,11 @@ public class TelegramFacade {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             log.info("New callbackQuery from User: {}, userId: {}, with data: {}", update.getCallbackQuery().getFrom().getUserName(),
                     callbackQuery.getFrom().getId(), update.getCallbackQuery().getData());
-            replyMessage = processCallbackQuery(callbackQuery);
-            return replyMessage;
         } else if (message != null && message.hasText()) {
             log.info("New message from User:{}, chatId: {},  with text: {}",
                     message.getFrom().getUserName(), message.getChatId(), message.getText());
-            replyMessage = handleInputMessage(message);
         }
-
+        replyMessage = handleInputUpdate(update);
         return replyMessage;
     }
 
@@ -77,34 +74,32 @@ public class TelegramFacade {
             userProfileData.setPartnerSex("Судари");
             userDataCache.setUsersCurrentBotState(id, BotState.SHOW_MAIN_MENU);
             callBackAnswer = new SendMessage(chatId.toString(), "Анкета заполнена!");
-            userProfileData.setId(id);
 
         } else if (callbackQuery.getData().equals("ищу Женщин")) {
             User userProfileData = userDataCache.getUserProfileData(id);
             userProfileData.setPartnerSex("Сударыни");
             userDataCache.setUsersCurrentBotState(id, BotState.SHOW_MAIN_MENU);
             callBackAnswer = new SendMessage(chatId.toString(), "Анкета заполнена!");
-            userProfileData.setId(id);
 
         } else if (callbackQuery.getData().equals("Все")) {
             User userProfileData = userDataCache.getUserProfileData(id);
             userProfileData.setPartnerSex("Все");
             userDataCache.setUsersCurrentBotState(id, BotState.SHOW_MAIN_MENU);
             callBackAnswer = new SendMessage(chatId.toString(), "Анкета заполнена!");
-            userProfileData.setId(id);
         }else {
             userDataCache.setUsersCurrentBotState(id,BotState.SHOW_MAIN_MENU);
         }
         return callBackAnswer;
     }
 
-    private SendMessage handleInputMessage(Message message) {
-        String inputMsg = message.getText();
-        int userId = Math.toIntExact(message.getFrom().getId());
+    private BotApiMethod<?> handleInputUpdate(Update update) {
+//        String inputMsg = message.getText();
+        String text = update.getMessage().getText();
+        int userId = Math.toIntExact(update.getMessage().getFrom().getId());
         BotState botState;
-        SendMessage replyMessage;
+        BotApiMethod<?> replyMessage;
 //        Проверить логику работы свитчкейса получается пользователь у бота спрашивает про имя пол и тд?итд
-        switch (inputMsg) {
+        switch (text) {
             case "/start":
                 botState = BotState.FILLING_PROFILE;
                 break;
@@ -133,7 +128,7 @@ public class TelegramFacade {
 
         userDataCache.setUsersCurrentBotState(userId, botState);
 
-        replyMessage = botStateContext.processInputMessage(botState, message);
+        replyMessage = botStateContext.processInputMessage(botState, update);
 
         return replyMessage;
     }
