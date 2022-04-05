@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.KeyBoardSelector;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.InlineKeyBoardSelector;
 
 @Data
 @Component
@@ -37,7 +37,7 @@ public class AskGenderHandler implements InputMessageHandler {
 //Переходим в состояние BOT_ASK_NAME
 // обрабатываем ответ уже в состоянии BOT_ASK_NAME
         SendMessage replyToUser = new SendMessage(chatId, "Вы сударь иль сударыня?");
-        replyToUser.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(getHandlerName()));
+        replyToUser.setReplyMarkup(InlineKeyBoardSelector.getInlineKeyboardMarkup(getHandlerName()));
         dataCache.setUsersCurrentBotState(userID, BotState.ASK_NAME);
         dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
         return replyToUser;

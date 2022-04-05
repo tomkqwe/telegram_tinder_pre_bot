@@ -12,10 +12,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.Bo
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.KeyBoardSelector;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Communication;
-
-import java.net.ConnectException;
 
 @Data
 @Component
@@ -40,10 +37,11 @@ public class GetProfileFilledHandler implements InputMessageHandler {
         }
 
         User user = communication.getUser(userID);
-        String toStringUser = user.toString();
-
-
-        return new SendMessage(chatID,toStringUser);
+        if (user==null) {
+            dataCache.setUsersCurrentBotState(userID, BotState.ASK_GENDER);
+            return new SendMessage(chatID, "Вам нужно зарегистрироваться");
+        }
+        return new SendMessage(chatID,user.toString());
     }
 
     @Override

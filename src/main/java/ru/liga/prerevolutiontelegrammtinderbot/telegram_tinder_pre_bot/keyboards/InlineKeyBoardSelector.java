@@ -7,7 +7,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.Bo
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeyBoardSelector {
+public class InlineKeyBoardSelector {
 
     public static InlineKeyboardMarkup getInlineKeyboardMarkup(BotState botState) {
         InlineKeyboardMarkup inlineKeyboardMarkup = null;
@@ -18,6 +18,8 @@ public class KeyBoardSelector {
             case ASK_PARTNER_GENDER:
                 inlineKeyboardMarkup = getPartnerSexKeyboard();
                 break;
+            case START_STATE:
+                inlineKeyboardMarkup = getStartRegistration();
         }
         return inlineKeyboardMarkup;
     }
@@ -48,13 +50,26 @@ public class KeyBoardSelector {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         InlineKeyboardButton inlineKeyboardSexButton1 = new InlineKeyboardButton();
         inlineKeyboardSexButton1.setText("Сударь");
-        inlineKeyboardSexButton1.setCallbackData("Мужской");
+        inlineKeyboardSexButton1.setCallbackData("я-сударь");
         InlineKeyboardButton inlineKeyboardSexButton2 = new InlineKeyboardButton();
         inlineKeyboardSexButton2.setText("Сударыня");
-        inlineKeyboardSexButton2.setCallbackData("Женский");
+        inlineKeyboardSexButton2.setCallbackData("я-сударыня");
         List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
         keyboardButtonsRow.add(inlineKeyboardSexButton1);
         keyboardButtonsRow.add(inlineKeyboardSexButton2);
+        rowList.add(keyboardButtonsRow);
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
+    }
+
+    private static InlineKeyboardMarkup getStartRegistration() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setText("Поехали");
+        inlineKeyboardButton.setCallbackData("Поехали");
+        List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
+        keyboardButtonsRow.add(inlineKeyboardButton);
         rowList.add(keyboardButtonsRow);
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;

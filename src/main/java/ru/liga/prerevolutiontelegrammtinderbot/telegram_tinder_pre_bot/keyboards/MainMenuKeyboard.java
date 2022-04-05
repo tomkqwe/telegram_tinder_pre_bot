@@ -8,16 +8,15 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayList;
 
-@Service
 public class MainMenuKeyboard {
-    public SendMessage getMainMenuMessage(final String chatId, final String textMessage) {
-        final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
-        final SendMessage mainMenuMessage =
-                createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
-        return mainMenuMessage;
-    }
+//    public static SendMessage getMainMenuMessage(final String chatId) {
+//        final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
+//        final SendMessage mainMenuMessage =
+//                createMessageWithKeyboard(chatId, replyKeyboardMarkup);
+//        return mainMenuMessage;
+//    }
 
-    private ReplyKeyboardMarkup getMainMenuKeyboard() {
+    public static ReplyKeyboardMarkup getMainMenuKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
         replyKeyboardMarkup.setSelective(true);
@@ -46,7 +45,7 @@ public class MainMenuKeyboard {
         return replyKeyboardMarkup;
     }
 
-    private SendMessage createMessageWithKeyboard(String chatId, String textMessage, ReplyKeyboardMarkup replyKeyboardMarkup) {
+    private static SendMessage createMessageWithKeyboard(String chatId, String textMessage, ReplyKeyboardMarkup replyKeyboardMarkup) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);

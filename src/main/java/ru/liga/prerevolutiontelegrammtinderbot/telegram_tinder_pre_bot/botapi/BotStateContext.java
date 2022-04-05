@@ -25,7 +25,7 @@ public class BotStateContext {
 //        return currentMessageHandler.handle(message);
 //    }
     public BotApiMethod<?> processInputMessage(BotState currentState, Update update) {
-        InputMessageHandler currentMessageHandler = findMessageHandler(currentState);
+        InputMessageHandler currentMessageHandler = messageHandlers.get(currentState);
 
         return currentMessageHandler.handleUpdate(update);
     }
@@ -46,7 +46,7 @@ public class BotStateContext {
             case ASK_GENDER:
             case ASK_DESCRIPTION:
             case ASK_PARTNER_GENDER:
-            case IS_FILLING_PROFILE:
+            case START_STATE:
             case PROFILE_FILLED://если профиль заполнен то это состояние заполнение профиля?
                 return true;
             default:

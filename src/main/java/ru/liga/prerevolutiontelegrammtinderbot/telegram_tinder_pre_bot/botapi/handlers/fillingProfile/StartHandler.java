@@ -12,19 +12,17 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.Bo
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.InlineKeyBoardSelector;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.MainMenuKeyboard;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Communication;
 
 @Component
 @Data
-public class IsFillingProfileHandler implements InputMessageHandler {
+public class StartHandler implements InputMessageHandler {
     @Autowired
     private DataCache dataCache;
     @Autowired
     private Communication communication;
-    @Autowired
-    private MainMenuKeyboard mainMenuKeyboard;
-
 
 
     @Override
@@ -41,24 +39,20 @@ public class IsFillingProfileHandler implements InputMessageHandler {
             chatID = message.getChatId().toString();
         }
 
-        User user = null;
-        try {
-            if (user.getName() != null){
-                dataCache.setUsersCurrentBotState(userID,BotState.SHOW_MAIN_MENU);
-                return mainMenuKeyboard.getMainMenuMessage(chatID,"Добро пожаловать");
-            }else {
-                dataCache.setUsersCurrentBotState(userID,BotState.ASK_GENDER);
-                return  new SendMessage(chatID,"Пользователь не найден, необходимо зарегистрироваться");
-            }
-        } catch (Exception e) {
-            dataCache.setUsersCurrentBotState(userID,BotState.ASK_GENDER);
-            return  new SendMessage(chatID,"Пользователь не найден, необходимо зарегистрироваться");
+        User user = communication.getUser(userID);
+        SendMessage sendMessage;
+        if (user == null) {
+            sendMessage = new SendMessage();
+            sendMessage.setReplyMarkup(InlineKeyBoardSelector.getInlineKeyboardMarkup(BotState.START_STATE));
+        } else {
+            sendMessage = new SendMessage(chatID, "выберите пункт");
+            sendMessage.setReplyMarkup(MainMenuKeyboard.getMainMenuKeyboard());
         }
-
+        return sendMessage;
     }
 
     @Override
     public BotState getHandlerName() {
-        return BotState.IS_FILLING_PROFILE;
+        return BotState.START_STATE;
     }
 }

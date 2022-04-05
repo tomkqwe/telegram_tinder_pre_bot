@@ -45,4 +45,6 @@ public class Communication {
         restTemplate.delete(URL + "/" + id);
     }
 
+
+
 }

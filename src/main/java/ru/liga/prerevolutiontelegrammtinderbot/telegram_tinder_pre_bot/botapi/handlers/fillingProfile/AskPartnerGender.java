@@ -11,7 +11,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.Bo
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.KeyBoardSelector;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.InlineKeyBoardSelector;
 @Data
 @Component
 public class AskPartnerGender implements InputMessageHandler {
@@ -30,7 +30,7 @@ public class AskPartnerGender implements InputMessageHandler {
         //в SHOW_PROFILE
         userProfileData.setDescription(message.getText());
         SendMessage sendMessage = new SendMessage(chatID, "Кого вы ищите?");
-        sendMessage.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(getHandlerName()));
+        sendMessage.setReplyMarkup(InlineKeyBoardSelector.getInlineKeyboardMarkup(getHandlerName()));
         dataCache.setUsersCurrentBotState(userID,BotState.PROFILE_FILLED);
         dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
         return sendMessage;
