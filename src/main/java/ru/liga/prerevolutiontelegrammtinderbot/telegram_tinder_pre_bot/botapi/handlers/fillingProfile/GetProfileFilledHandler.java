@@ -36,25 +36,8 @@ public class GetProfileFilledHandler implements InputMessageHandler {
             userID = Math.toIntExact(message.getFrom().getId());
             chatID = message.getChatId().toString();
         }
-        //получаем callbackquery с partnerGender, сэтим его в юзера,
-        //если пользователь ввел ручками partnerGender, то получаем текст
-        //и просим пользователя нажать на кнопку для получения callbackquery
-        //когда юзер заполнен, наконец-то заполнение анкеты завершено
-        //переходим в главное меню
-        User userProfileData = dataCache.getUserProfileData(userID);
-        SendMessage sendMessage = null;
-        if (update.hasCallbackQuery()) {
-            String data = update.getCallbackQuery().getData();
-            userProfileData.setPartnerSex(data);
-            sendMessage = new SendMessage(chatID, "Анкета заполнена!");
-            dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
-            dataCache.setUsersCurrentBotState(userID,BotState.SHOW_USER_PROFILE);
-        } else {
-            sendMessage = new SendMessage(chatID, "Кого ищем?\nНажмите на кнопку!");
-            sendMessage.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_PARTNER_GENDER));
-                dataCache.setUsersCurrentBotState(userID,getHandlerName());
-        }
-        return sendMessage;
+
+      return null;
     }
 
     @Override

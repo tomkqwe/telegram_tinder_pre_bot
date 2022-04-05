@@ -27,11 +27,11 @@ public class AskPartnerGender implements InputMessageHandler {
         User userProfileData = dataCache.getUserProfileData(userID);
         //получаем description, сэтим его юзеру, выкатываем кнопки с
         //выбором того, кого ищет наш юзер и обрабатываем этот выбор
-        //в PROFILE_FILLED
+        //в SHOW_PROFILE
         userProfileData.setDescription(message.getText());
         SendMessage sendMessage = new SendMessage(chatID, "Кого вы ищите?");
         sendMessage.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(getHandlerName()));
-        dataCache.setUsersCurrentBotState(userID,BotState.PROFILE_FILLED);
+        dataCache.setUsersCurrentBotState(userID,BotState.SHOW_USER_PROFILE);
         dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
         return sendMessage;
     }
