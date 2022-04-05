@@ -1,20 +1,16 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils;
 
 import lombok.Getter;
-import lombok.extern.flogger.Flogger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.configuration.MyConfig;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.List;
+
 @Getter
 @Slf4j
 @Component
@@ -30,7 +26,7 @@ public class Communication {
     }
 
     public User getUser(int id) {
-        log.info("get user by "+id);
+        log.info("get user by " + id);
         return restTemplate.getForObject(URL + "/" + id, User.class);
     }
 

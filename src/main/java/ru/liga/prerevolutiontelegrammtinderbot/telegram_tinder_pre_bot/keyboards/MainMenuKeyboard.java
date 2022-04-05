@@ -28,14 +28,12 @@ public class MainMenuKeyboard {
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
         KeyboardRow row3 = new KeyboardRow();
-        KeyboardRow row4 = new KeyboardRow();
-        KeyboardRow row5 = new KeyboardRow();
+
 
         row1.add(new KeyboardButton("/start"));
-        row1.add(new KeyboardButton("Анкета"));
-        row2.add(new KeyboardButton("Помощь"));
-        row3.add(new KeyboardButton("Помощь"));
-        row3.add(new KeyboardButton("Помощь"));
+        row2.add(new KeyboardButton("Поиск"));
+        row2.add(new KeyboardButton("Анкета"));
+        row3.add(new KeyboardButton("Любимцы"));
 
         keyboard.add(row1);
         keyboard.add(row2);

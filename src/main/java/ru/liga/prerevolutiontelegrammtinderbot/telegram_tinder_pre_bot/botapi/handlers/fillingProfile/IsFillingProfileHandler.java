@@ -40,14 +40,21 @@ public class IsFillingProfileHandler implements InputMessageHandler {
             userID = Math.toIntExact(message.getFrom().getId());
             chatID = message.getChatId().toString();
         }
-        User user = communication.getUser(userID);
-        if (user.getName() != null){
-            dataCache.setUsersCurrentBotState(userID,BotState.SHOW_MAIN_MENU);
-            return mainMenuKeyboard.getMainMenuMessage(chatID,"Добро пожаловать");
-        }else {
+
+        User user = null;
+        try {
+            if (user.getName() != null){
+                dataCache.setUsersCurrentBotState(userID,BotState.SHOW_MAIN_MENU);
+                return mainMenuKeyboard.getMainMenuMessage(chatID,"Добро пожаловать");
+            }else {
+                dataCache.setUsersCurrentBotState(userID,BotState.ASK_GENDER);
+                return  new SendMessage(chatID,"Пользователь не найден, необходимо зарегистрироваться");
+            }
+        } catch (Exception e) {
             dataCache.setUsersCurrentBotState(userID,BotState.ASK_GENDER);
             return  new SendMessage(chatID,"Пользователь не найден, необходимо зарегистрироваться");
         }
+
     }
 
     @Override

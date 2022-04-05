@@ -1,4 +1,4 @@
-package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.handlers.fillingProfile;
+package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.handlers.userProfile;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,8 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.Dat
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.KeyBoardSelector;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Communication;
+
+import java.net.ConnectException;
 
 @Data
 @Component
@@ -36,6 +38,7 @@ public class GetProfileFilledHandler implements InputMessageHandler {
             userID = Math.toIntExact(message.getFrom().getId());
             chatID = message.getChatId().toString();
         }
+
         User user = communication.getUser(userID);
         String toStringUser = user.toString();
 
