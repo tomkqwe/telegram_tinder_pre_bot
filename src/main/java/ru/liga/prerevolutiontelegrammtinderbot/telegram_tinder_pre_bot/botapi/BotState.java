@@ -10,7 +10,7 @@ public enum BotState {
     ASK_DESCRIPTION,
     ASK_PARTNER_GENDER,
 
-    FILLING_PROFILE,
+    FILLING_PROFILE,//зачем ты нужен?
     PROFILE_FILLED,
 
     GET_SEARCHING,

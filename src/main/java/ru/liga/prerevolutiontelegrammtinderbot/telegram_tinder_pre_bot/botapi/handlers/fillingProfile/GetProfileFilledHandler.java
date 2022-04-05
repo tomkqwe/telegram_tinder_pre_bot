@@ -13,35 +13,38 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.In
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.KeyBoardSelector;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Communication;
 
 @Data
 @Component
 public class GetProfileFilledHandler implements InputMessageHandler {
     @Autowired
     private DataCache dataCache;
+    @Autowired
+    private Communication communication;
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
         int userID;
-//        String text;
         String chatID;
         if (update.hasCallbackQuery()) {
             CallbackQuery query = update.getCallbackQuery();
             userID = Math.toIntExact(query.getFrom().getId());
-//            text = query.getData();
             chatID = query.getFrom().getId().toString();
         } else {
             Message message = update.getMessage();
-//            text = message.getText();
             userID = Math.toIntExact(message.getFrom().getId());
             chatID = message.getChatId().toString();
         }
+        User user = communication.getUser(userID);
+        String toStringUser = user.toString();
 
-      return null;
+
+        return new SendMessage(chatID,toStringUser);
     }
 
     @Override
     public BotState getHandlerName() {
-        return BotState.PROFILE_FILLED;
+        return BotState.SHOW_USER_PROFILE;
     }
 }

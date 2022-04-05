@@ -19,10 +19,10 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Com
  */
 
 @Component
-public class ShowProfileHandler implements InputMessageHandler {
+public class ShowProfileFilledHandler implements InputMessageHandler {
     private DataCache dataCache;
 
-    public ShowProfileHandler(DataCache dataCache) {
+    public ShowProfileFilledHandler(DataCache dataCache) {
         this.dataCache = dataCache;
     }
 
@@ -61,6 +61,7 @@ public class ShowProfileHandler implements InputMessageHandler {
             sendMessage = new SendMessage(chatId, "Кого ищем?\nНажмите на кнопку!");
             sendMessage.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_PARTNER_GENDER));
             dataCache.setUsersCurrentBotState(userID,getHandlerName());
+            return sendMessage;
         }
 
         return new SendMessage(chatId, String.format("%s%n -------------------%nИмя: %s%nВозраст: %d%n Пол: %s%nОписание: %s%n" +
@@ -71,6 +72,6 @@ public class ShowProfileHandler implements InputMessageHandler {
 
     @Override
     public BotState getHandlerName() {
-        return BotState.SHOW_USER_PROFILE;
+        return BotState.PROFILE_FILLED;
     }
 }
