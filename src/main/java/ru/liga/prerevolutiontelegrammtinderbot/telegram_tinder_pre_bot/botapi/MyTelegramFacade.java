@@ -64,7 +64,7 @@ public class MyTelegramFacade {
             case "/start":
                 botState = BotState.ASK_GENDER;
                 break;
-            case "Моя анкета":
+            case "Анкета":
                 botState = BotState.SHOW_USER_PROFILE;
                 break;
             case "Помощь":

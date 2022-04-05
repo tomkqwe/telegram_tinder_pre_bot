@@ -30,10 +30,12 @@ public class MainMenuKeyboard {
         KeyboardRow row3 = new KeyboardRow();
 
         row1.add(new KeyboardButton("/start"));
-        row1.add(new KeyboardButton("Анкета"));
-        row1.add(new KeyboardButton("Помощь"));
+        row2.add(new KeyboardButton("Анкета"));
+        row3.add(new KeyboardButton("Помощь"));
 
         keyboard.add(row1);
+        keyboard.add(row2);
+        keyboard.add(row3);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
 
