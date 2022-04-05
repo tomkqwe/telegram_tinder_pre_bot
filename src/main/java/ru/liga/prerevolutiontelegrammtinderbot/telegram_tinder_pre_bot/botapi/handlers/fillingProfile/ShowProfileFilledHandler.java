@@ -49,14 +49,14 @@ public class ShowProfileFilledHandler implements InputMessageHandler {
         //переходим в главное меню
 
         User userProfileData = dataCache.getUserProfileData(userID);
-        dataCache.setUsersCurrentBotState(userID,BotState.SHOW_MAIN_MENU);
         SendMessage sendMessage = null;
         if (update.hasCallbackQuery()) {
             String data = update.getCallbackQuery().getData();
             userProfileData.setPartnerSex(data);
             sendMessage = new SendMessage(chatId, "Анкета заполнена!");
             dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
-            dataCache.setUsersCurrentBotState(userID,BotState.SHOW_USER_PROFILE);
+            dataCache.setUsersCurrentBotState(userID,BotState.SHOW_MAIN_MENU);
+
         } else {
             sendMessage = new SendMessage(chatId, "Кого ищем?\nНажмите на кнопку!");
             sendMessage.setReplyMarkup(KeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_PARTNER_GENDER));

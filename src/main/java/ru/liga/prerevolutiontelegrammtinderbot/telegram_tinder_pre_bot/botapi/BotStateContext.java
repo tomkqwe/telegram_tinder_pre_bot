@@ -2,7 +2,6 @@ package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.HashMap;
@@ -47,7 +46,7 @@ public class BotStateContext {
             case ASK_GENDER:
             case ASK_DESCRIPTION:
             case ASK_PARTNER_GENDER:
-            case FILLING_PROFILE:
+            case IS_FILLING_PROFILE:
             case PROFILE_FILLED://если профиль заполнен то это состояние заполнение профиля?
                 return true;
             default:

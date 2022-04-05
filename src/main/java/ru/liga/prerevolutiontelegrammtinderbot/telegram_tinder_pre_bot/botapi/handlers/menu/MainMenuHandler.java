@@ -25,8 +25,7 @@ public class MainMenuHandler implements InputMessageHandler {
         } else {
             chatID = update.getCallbackQuery().getId();
         }
-        SendMessage mainMenuMessage = mainMenuKeyboard.getMainMenuMessage(chatID, "это сообщение прилетает из глвного меню");
-        return mainMenuMessage;
+        return mainMenuKeyboard.getMainMenuMessage(chatID, "это сообщение прилетает из глвного меню");
 
     }
 

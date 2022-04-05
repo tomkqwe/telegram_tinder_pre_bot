@@ -1,6 +1,5 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -8,12 +7,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
+
 @Service
 public class MainMenuKeyboard {
-    public SendMessage getMainMenuMessage(final String chatId,final String textMessage){
+    public SendMessage getMainMenuMessage(final String chatId, final String textMessage) {
         final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
         final SendMessage mainMenuMessage =
-                createMessageWithKeyboard(chatId,textMessage,replyKeyboardMarkup);
+                createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
         return mainMenuMessage;
     }
 
@@ -28,16 +28,22 @@ public class MainMenuKeyboard {
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
         KeyboardRow row3 = new KeyboardRow();
+        KeyboardRow row4 = new KeyboardRow();
+        KeyboardRow row5 = new KeyboardRow();
 
         row1.add(new KeyboardButton("/start"));
-        row2.add(new KeyboardButton("Анкета"));
+        row1.add(new KeyboardButton("Анкета"));
+        row2.add(new KeyboardButton("Помощь"));
+        row3.add(new KeyboardButton("Помощь"));
         row3.add(new KeyboardButton("Помощь"));
 
         keyboard.add(row1);
         keyboard.add(row2);
         keyboard.add(row3);
 
+
         replyKeyboardMarkup.setKeyboard(keyboard);
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
 
         return replyKeyboardMarkup;
     }
@@ -47,7 +53,7 @@ public class MainMenuKeyboard {
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
         sendMessage.setText(textMessage);
-        if (replyKeyboardMarkup != null){
+        if (replyKeyboardMarkup != null) {
             sendMessage.setReplyMarkup(replyKeyboardMarkup);
         }
 

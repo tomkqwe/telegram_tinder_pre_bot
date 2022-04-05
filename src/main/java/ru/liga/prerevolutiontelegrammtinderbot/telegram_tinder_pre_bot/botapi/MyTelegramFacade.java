@@ -62,7 +62,7 @@ public class MyTelegramFacade {
         BotApiMethod<?> replyMessage;
         switch (text) {
             case "/start":
-                botState = BotState.ASK_GENDER;
+                botState = BotState.IS_FILLING_PROFILE;
                 break;
             case "Анкета":
                 botState = BotState.SHOW_USER_PROFILE;
