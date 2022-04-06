@@ -11,6 +11,8 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.In
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.InlineKeyBoardSelector;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.MainMenuKeyboard;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.UpdateHandler;
 
 /**
  * В это класс нужно забульбенить картинку с текстом для просмотра своей анкеты на картинке
@@ -29,17 +31,9 @@ public class ShowProfileFilledHandler implements InputMessageHandler {
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        int userID;
-        String chatId;
-        if (update.hasCallbackQuery()) {
-            CallbackQuery query = update.getCallbackQuery();
-            userID = Math.toIntExact(query.getFrom().getId());
-            chatId = query.getFrom().getId().toString();
-        } else {
-            Message message = update.getMessage();
-            userID = Math.toIntExact(message.getFrom().getId());
-            chatId = message.getChatId().toString();
-        }
+        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        String chatId = UpdateHandler.getChatId(update);
+
         //получаем callbackquery с partnerGender, сэтим его в юзера,
         //если пользователь ввел ручками partnerGender, то получаем текст
         //и просим пользователя нажать на кнопку для получения callbackquery
@@ -53,7 +47,7 @@ public class ShowProfileFilledHandler implements InputMessageHandler {
             userProfileData.setPartnerSex(data);
             sendMessage = new SendMessage(chatId, "Анкета заполнена!");
             dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
-            dataCache.setUsersCurrentBotState(userID,BotState.SHOW_MAIN_MENU);
+//            dataCache.setUsersCurrentBotState(userID,BotState.SHOW_MAIN_MENU);
 
         } else {
             sendMessage = new SendMessage(chatId, "Кого ищем?\nНажмите на кнопку!");
@@ -62,9 +56,11 @@ public class ShowProfileFilledHandler implements InputMessageHandler {
             return sendMessage;
         }
 
-        return new SendMessage(chatId, String.format("%s%n -------------------%nИмя: %s%nВозраст: %d%n Пол: %s%nОписание: %s%n" +
+        SendMessage smWithMenu = new SendMessage(chatId, String.format("%s%n -------------------%nИмя: %s%nВозраст: %d%n Пол: %s%nОписание: %s%n" +
                         "Кого ищем: %s%n", "Данные по вашей анкете", userProfileData.getName(), userProfileData.getAge(), userProfileData.getSex(), userProfileData.getDescription(),
                 userProfileData.getPartnerSex()));
+        smWithMenu.setReplyMarkup(MainMenuKeyboard.getMainMenuKeyboard());
+        return smWithMenu;
     }
 
 

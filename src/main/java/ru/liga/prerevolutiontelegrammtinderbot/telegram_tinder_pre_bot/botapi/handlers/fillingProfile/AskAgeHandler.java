@@ -12,6 +12,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.Bo
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.UpdateHandler;
 
 @Data
 @Component
@@ -20,20 +21,10 @@ public class AskAgeHandler implements InputMessageHandler {
     private DataCache dataCache;
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        int userID;
-        String text="";
-        String chatID;
 
-        if (update.hasCallbackQuery()) {
-            CallbackQuery query = update.getCallbackQuery();
-            userID = Math.toIntExact(query.getFrom().getId());
-            chatID = query.getFrom().getId().toString();
-        } else {
-            Message message = update.getMessage();
-            text = message.getText();
-            userID = Math.toIntExact(message.getFrom().getId());
-            chatID = message.getChatId().toString();
-        }
+        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        String text= UpdateHandler.getText(update);
+        String chatID = UpdateHandler.getChatId(update);
 
         User userProfileData = dataCache.getUserProfileData(userID);
        //Получаем имя, сэтим его юзеру,спрашиваем про возраст,сэтить возраст будем в ASK_DESCRIPTION

@@ -11,6 +11,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.Bo
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.UpdateHandler;
 
 @Data
 @Component
@@ -20,8 +21,8 @@ public class AskDescription implements InputMessageHandler {
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
         Message message = update.getMessage();
-        String chatID = message.getChatId().toString();
-        int userID = Math.toIntExact(message.getFrom().getId());
+        String chatID = UpdateHandler.getChatId(update);
+        int userID = Math.toIntExact(UpdateHandler.getId(update));
 
         User userProfileData = dataCache.getUserProfileData(userID);
         //Получаем строку в которой должно быть число, если пользователь вводит буквы,

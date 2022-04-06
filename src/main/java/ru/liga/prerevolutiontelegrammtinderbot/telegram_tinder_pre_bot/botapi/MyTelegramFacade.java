@@ -58,9 +58,10 @@ public class MyTelegramFacade {
             case "Анкета":
                 botState = BotState.SHOW_USER_PROFILE;
                 break;
-            case "Смотреть любимцов":
+            case "Любимцы":
                 botState = BotState.GET_FAVORITES;
-            case "Искать":
+                break;
+            case "Поиск":
                 botState = BotState.GET_SEARCHING;
                 break;
             default:

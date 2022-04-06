@@ -1,18 +1,18 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards;
 
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
-
+@Service
 public class MainMenuKeyboard {
 //    public static SendMessage getMainMenuMessage(final String chatId) {
 //        final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
-//        final SendMessage mainMenuMessage =
-//                createMessageWithKeyboard(chatId, replyKeyboardMarkup);
+//                createMessageWithKeyboard(chatId,)
 //        return mainMenuMessage;
 //    }
 
@@ -40,7 +40,6 @@ public class MainMenuKeyboard {
 
 
         replyKeyboardMarkup.setKeyboard(keyboard);
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
 
         return replyKeyboardMarkup;
     }

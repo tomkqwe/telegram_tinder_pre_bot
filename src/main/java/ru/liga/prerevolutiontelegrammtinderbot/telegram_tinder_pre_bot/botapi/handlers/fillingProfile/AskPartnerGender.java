@@ -12,6 +12,8 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.In
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.InlineKeyBoardSelector;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.UpdateHandler;
+
 @Data
 @Component
 public class AskPartnerGender implements InputMessageHandler {
@@ -21,14 +23,14 @@ public class AskPartnerGender implements InputMessageHandler {
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
 
-        Message message = update.getMessage();
-        String chatID = message.getChatId().toString();
-        int userID = Math.toIntExact(message.getFrom().getId());
+        String chatID = UpdateHandler.getChatId(update);
+        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        String text = UpdateHandler.getText(update);
         User userProfileData = dataCache.getUserProfileData(userID);
         //получаем description, сэтим его юзеру, выкатываем кнопки с
         //выбором того, кого ищет наш юзер и обрабатываем этот выбор
         //в SHOW_PROFILE
-        userProfileData.setDescription(message.getText());
+        userProfileData.setDescription(text);
         SendMessage sendMessage = new SendMessage(chatID, "Кого вы ищите?");
         sendMessage.setReplyMarkup(InlineKeyBoardSelector.getInlineKeyboardMarkup(getHandlerName()));
         dataCache.setUsersCurrentBotState(userID,BotState.PROFILE_FILLED);

@@ -13,6 +13,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.In
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.InlineKeyBoardSelector;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.UpdateHandler;
 
 @Data
 @Component
@@ -22,19 +23,10 @@ public class AskNameHandler implements InputMessageHandler {
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        int userID;
-//        String text;
-        String chatId;
+        int userID = Math.toIntExact(UpdateHandler.getId(update));
 
-        if (update.hasCallbackQuery()) {
-            CallbackQuery query = update.getCallbackQuery();
-            userID = Math.toIntExact(query.getFrom().getId());
-            chatId = query.getFrom().getId().toString();
-        } else {
-            Message message = update.getMessage();
-            userID = Math.toIntExact(message.getFrom().getId());
-            chatId = message.getChatId().toString();
-        }
+        String chatId = UpdateHandler.getChatId(update);
+
 
 //        Получаем ответ с кнопки, если нету ответа с кнопки зацикливаемся пока его не получим
 //        Когда его получаем, спрашиваем про имя и переходим в состояние ASK_AGE
