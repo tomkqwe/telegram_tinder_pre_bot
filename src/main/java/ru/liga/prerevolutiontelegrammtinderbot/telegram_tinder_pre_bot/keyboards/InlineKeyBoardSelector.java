@@ -9,6 +9,14 @@ import java.util.List;
 
 public class InlineKeyBoardSelector {
 
+    public static final String LETS_GO = "Поехали";
+    public static final String SUDAR = "Сударь";
+    public static final String MANS = "Мужчин";
+    public static final String SUDARINA = "Сударыня";
+    public static final String WOMENS = "Женщин";
+    public static final String ALL = "Все";
+    public static final String FIND_ALL = "Всех";
+
     public static InlineKeyboardMarkup getInlineKeyboardMarkup(BotState botState) {
         InlineKeyboardMarkup inlineKeyboardMarkup = null;
         switch (botState) {
@@ -28,14 +36,14 @@ public class InlineKeyBoardSelector {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         InlineKeyboardButton inlineKeyboardSexButton1 = new InlineKeyboardButton();
-        inlineKeyboardSexButton1.setText("М");
-        inlineKeyboardSexButton1.setCallbackData("ищу Мужчин");
+        inlineKeyboardSexButton1.setText(SUDAR);
+        inlineKeyboardSexButton1.setCallbackData(MANS);
         InlineKeyboardButton inlineKeyboardSexButton2 = new InlineKeyboardButton();
-        inlineKeyboardSexButton2.setText("Ж");
-        inlineKeyboardSexButton2.setCallbackData("ищу Женщин");
+        inlineKeyboardSexButton2.setText(SUDARINA);
+        inlineKeyboardSexButton2.setCallbackData(WOMENS);
         InlineKeyboardButton inlineKeyboardSexButton3 = new InlineKeyboardButton();
-        inlineKeyboardSexButton3.setText("ищу Всех");
-        inlineKeyboardSexButton3.setCallbackData("Все");
+        inlineKeyboardSexButton3.setText(FIND_ALL);
+        inlineKeyboardSexButton3.setCallbackData(ALL);
         List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
         keyboardButtonsRow.add(inlineKeyboardSexButton1);
         keyboardButtonsRow.add(inlineKeyboardSexButton2);
@@ -49,11 +57,11 @@ public class InlineKeyBoardSelector {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         InlineKeyboardButton inlineKeyboardSexButton1 = new InlineKeyboardButton();
-        inlineKeyboardSexButton1.setText("Сударь");
-        inlineKeyboardSexButton1.setCallbackData("я-сударь");
+        inlineKeyboardSexButton1.setText(SUDAR);
+        inlineKeyboardSexButton1.setCallbackData(SUDAR);
         InlineKeyboardButton inlineKeyboardSexButton2 = new InlineKeyboardButton();
-        inlineKeyboardSexButton2.setText("Сударыня");
-        inlineKeyboardSexButton2.setCallbackData("я-сударыня");
+        inlineKeyboardSexButton2.setText(SUDARINA);
+        inlineKeyboardSexButton2.setCallbackData(SUDARINA);
         List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
         keyboardButtonsRow.add(inlineKeyboardSexButton1);
         keyboardButtonsRow.add(inlineKeyboardSexButton2);
@@ -66,8 +74,8 @@ public class InlineKeyBoardSelector {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-        inlineKeyboardButton.setText("Поехали");
-        inlineKeyboardButton.setCallbackData("Поехали");
+        inlineKeyboardButton.setText(LETS_GO);
+        inlineKeyboardButton.setCallbackData(LETS_GO);
         List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
         keyboardButtonsRow.add(inlineKeyboardButton);
         rowList.add(keyboardButtonsRow);

@@ -17,6 +17,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Upd
 @Data
 @Component
 public class AskPartnerGender implements InputMessageHandler {
+    public static final String WHO_ARE_YOU_LOOKING_FOR = "Кого вы ищите?";
     @Autowired
     private DataCache dataCache;
 
@@ -31,7 +32,7 @@ public class AskPartnerGender implements InputMessageHandler {
         //выбором того, кого ищет наш юзер и обрабатываем этот выбор
         //в SHOW_PROFILE
         userProfileData.setDescription(text);
-        SendMessage sendMessage = new SendMessage(chatID, "Кого вы ищите?");
+        SendMessage sendMessage = new SendMessage(chatID, WHO_ARE_YOU_LOOKING_FOR);
         sendMessage.setReplyMarkup(InlineKeyBoardSelector.getInlineKeyboardMarkup(getHandlerName()));
         dataCache.setUsersCurrentBotState(userID,BotState.PROFILE_FILLED);
         dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));

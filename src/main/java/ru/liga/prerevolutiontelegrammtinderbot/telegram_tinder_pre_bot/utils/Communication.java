@@ -31,14 +31,13 @@ public class Communication {
     }
 
     public void saveUser(User user) {
-        int id = user.getId();
-        if (id == 0) {
             restTemplate.postForEntity(URL, user, String.class);
             log.info("New user was added to DB");
-        } else {
-            restTemplate.put(URL, user);
-            log.info("user with ID " + id + " was updated");
-        }
+    }
+    public void updateUser(User user){
+        int id = user.getId();
+        restTemplate.put(URL,user);
+        log.info("user with ID " + id + " was updated");
     }
 
     public void deleteUser(int id) {

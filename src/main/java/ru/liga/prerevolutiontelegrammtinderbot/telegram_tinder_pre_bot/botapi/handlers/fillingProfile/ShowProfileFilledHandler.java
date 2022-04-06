@@ -1,10 +1,9 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.handlers.fillingProfile;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
@@ -12,6 +11,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.Dat
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.InlineKeyBoardSelector;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards.MainMenuKeyboard;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Communication;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.UpdateHandler;
 
 /**
@@ -20,14 +20,15 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Upd
 
 @Component
 public class ShowProfileFilledHandler implements InputMessageHandler {
-    private DataCache dataCache;
+    public static final String ANKET_COMPLITE = "Анкета заполнена!";
+    public static final String GO_PRESS_BUTTON = "Кого ищем?\nНажмите на кнопку!";
+    private final DataCache dataCache;
+    @Autowired
+    private Communication communication;
 
     public ShowProfileFilledHandler(DataCache dataCache) {
         this.dataCache = dataCache;
     }
-
-    //
-
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
@@ -45,14 +46,14 @@ public class ShowProfileFilledHandler implements InputMessageHandler {
         if (update.hasCallbackQuery()) {
             String data = update.getCallbackQuery().getData();
             userProfileData.setPartnerSex(data);
-            sendMessage = new SendMessage(chatId, "Анкета заполнена!");
-            dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
+            sendMessage = new SendMessage(chatId, ANKET_COMPLITE);
+            dataCache.saveUserProfileData(userID, dataCache.getUserProfileData(userID));
 //            dataCache.setUsersCurrentBotState(userID,BotState.SHOW_MAIN_MENU);
 
         } else {
-            sendMessage = new SendMessage(chatId, "Кого ищем?\nНажмите на кнопку!");
+            sendMessage = new SendMessage(chatId, GO_PRESS_BUTTON);
             sendMessage.setReplyMarkup(InlineKeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_PARTNER_GENDER));
-            dataCache.setUsersCurrentBotState(userID,getHandlerName());
+            dataCache.setUsersCurrentBotState(userID, getHandlerName());
             return sendMessage;
         }
 
@@ -60,6 +61,7 @@ public class ShowProfileFilledHandler implements InputMessageHandler {
                         "Кого ищем: %s%n", "Данные по вашей анкете", userProfileData.getName(), userProfileData.getAge(), userProfileData.getSex(), userProfileData.getDescription(),
                 userProfileData.getPartnerSex()));
         smWithMenu.setReplyMarkup(MainMenuKeyboard.getMainMenuKeyboard());
+        communication.saveUser(userProfileData);
         return smWithMenu;
     }
 

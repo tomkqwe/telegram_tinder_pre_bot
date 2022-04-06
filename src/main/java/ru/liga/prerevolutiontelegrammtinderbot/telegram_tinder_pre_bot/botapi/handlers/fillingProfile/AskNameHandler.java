@@ -18,6 +18,8 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Upd
 @Data
 @Component
 public class AskNameHandler implements InputMessageHandler {
+    public static final String WHAT_IS_YOUR_NAME = "Как вас величать?";
+    public static final String CHOOSE_GENDER = "Выберите пол!";
     @Autowired
     private DataCache dataCache;
 
@@ -34,13 +36,13 @@ public class AskNameHandler implements InputMessageHandler {
         User userProfileData = dataCache.getUserProfileData(userID);
         SendMessage sendMessage = null;
         if (update.hasCallbackQuery()) {
-            sendMessage = new SendMessage(chatId, "Как вас величать?");
+            sendMessage = new SendMessage(chatId, WHAT_IS_YOUR_NAME);
             String data = update.getCallbackQuery().getData();
             userProfileData.setSex(data);
             dataCache.setUsersCurrentBotState(userID, BotState.ASK_AGE);
             dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
         } else {
-            sendMessage = new SendMessage(chatId, "Выберите пол!");
+            sendMessage = new SendMessage(chatId, CHOOSE_GENDER);
             sendMessage.setReplyMarkup(InlineKeyBoardSelector.getInlineKeyboardMarkup(BotState.ASK_GENDER));
             dataCache.setUsersCurrentBotState(userID, BotState.ASK_NAME);
         }

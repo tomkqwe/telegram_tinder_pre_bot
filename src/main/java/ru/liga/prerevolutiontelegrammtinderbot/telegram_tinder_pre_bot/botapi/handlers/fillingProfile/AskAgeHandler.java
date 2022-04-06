@@ -17,6 +17,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Upd
 @Data
 @Component
 public class AskAgeHandler implements InputMessageHandler {
+    public static final String HOW_OLD = "Сколько вам лет?";
     @Autowired
     private DataCache dataCache;
     @Override
@@ -30,7 +31,7 @@ public class AskAgeHandler implements InputMessageHandler {
        //Получаем имя, сэтим его юзеру,спрашиваем про возраст,сэтить возраст будем в ASK_DESCRIPTION
         userProfileData.setName(text);
         dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
-        SendMessage sendMessage = new SendMessage(chatID,"Сколько вам лет?");
+        SendMessage sendMessage = new SendMessage(chatID, HOW_OLD);
         dataCache.setUsersCurrentBotState(userID,BotState.ASK_DESCRIPTION);
         return sendMessage;
     }

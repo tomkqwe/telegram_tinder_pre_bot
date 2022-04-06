@@ -14,6 +14,11 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.Dat
 @Slf4j
 public class MyTelegramFacade {
 
+    public static final String START = "/start";
+    public static final String LETS_GO = "Поехали";
+    public static final String FORM = "Анкета";
+    public static final String FAVORITES = "Любимцы";
+    public static final String SEARCH = "Поиск";
     private BotStateContext botStateContext;
     private DataCache userDataCache;
 
@@ -49,19 +54,19 @@ public class MyTelegramFacade {
         }
         BotState botState;
         switch (text) {
-            case "/start":
+            case START:
                 botState = BotState.START_STATE;
                 break;
-            case "Поехали":
+            case LETS_GO:
                 botState = BotState.ASK_GENDER;
                 break;
-            case "Анкета":
+            case FORM:
                 botState = BotState.SHOW_USER_PROFILE;
                 break;
-            case "Любимцы":
+            case FAVORITES:
                 botState = BotState.GET_FAVORITES;
                 break;
-            case "Поиск":
+            case SEARCH:
                 botState = BotState.GET_SEARCHING;
                 break;
             default:

@@ -10,7 +10,11 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 @Service
 public class MainMenuKeyboard {
-//    public static SendMessage getMainMenuMessage(final String chatId) {
+    public static final String START = "/start";
+    public static final String SEARCH = "Поиск";
+    public static final String FORM = "Анкета";
+    public static final String FAVORITES = "Любимцы";
+    //    public static SendMessage getMainMenuMessage(final String chatId) {
 //        final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
 //                createMessageWithKeyboard(chatId,)
 //        return mainMenuMessage;
@@ -29,10 +33,10 @@ public class MainMenuKeyboard {
         KeyboardRow row3 = new KeyboardRow();
 
 
-        row1.add(new KeyboardButton("/start"));
-        row2.add(new KeyboardButton("Поиск"));
-        row2.add(new KeyboardButton("Анкета"));
-        row3.add(new KeyboardButton("Любимцы"));
+        row1.add(new KeyboardButton(START));
+        row2.add(new KeyboardButton(SEARCH));
+        row2.add(new KeyboardButton(FORM));
+        row3.add(new KeyboardButton(FAVORITES));
 
         keyboard.add(row1);
         keyboard.add(row2);

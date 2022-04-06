@@ -17,6 +17,7 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Com
 @Data
 @Component
 public class GetProfileFilledHandler implements InputMessageHandler {
+    public static final String NEED_REGISTRATION = "Вам нужно зарегистрироваться";
     @Autowired
     private DataCache dataCache;
     @Autowired
@@ -39,7 +40,7 @@ public class GetProfileFilledHandler implements InputMessageHandler {
         User user = communication.getUser(userID);
         if (user==null) {
             dataCache.setUsersCurrentBotState(userID, BotState.ASK_GENDER);
-            return new SendMessage(chatID, "Вам нужно зарегистрироваться");
+            return new SendMessage(chatID, NEED_REGISTRATION);
         }
         return new SendMessage(chatID,user.toString());
     }

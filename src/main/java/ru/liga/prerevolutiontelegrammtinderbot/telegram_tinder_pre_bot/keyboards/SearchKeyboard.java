@@ -1,6 +1,5 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards;
 
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -8,9 +7,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayList;
 
-public class FavoritesKeyboard {
+public class SearchKeyboard {
 
-    public static ReplyKeyboard  getFavoritesKeyboard(){
+
+    public static final String NEXT = "Следующий❌";
+    public static final String LIKE = "Лайк❤️";
+    public static final String BACK = "Назад";
+
+    public static ReplyKeyboard getSearchKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
         replyKeyboardMarkup.setSelective(true);
@@ -21,10 +25,9 @@ public class FavoritesKeyboard {
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
 
-        row1.add(new KeyboardButton("Нравятся вам"));
-        row1.add(new KeyboardButton("Выбрали вас"));
-        row1.add(new KeyboardButton("Взаимный выбор"));
-        row2.add(new KeyboardButton("Назад"));
+        row1.add(new KeyboardButton(NEXT));
+        row1.add(new KeyboardButton(LIKE));
+        row2.add(new KeyboardButton(BACK));
 
         keyboardRows.add(row1);
         keyboardRows.add(row2);
@@ -32,5 +35,4 @@ public class FavoritesKeyboard {
 
         return replyKeyboardMarkup;
     }
-
 }

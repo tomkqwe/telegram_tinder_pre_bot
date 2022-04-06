@@ -16,6 +16,8 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Upd
 @Data
 @Component
 public class AskDescription implements InputMessageHandler {
+    public static final String SEND_CORRECT_AGE = "Возраст не может быть с буквами!\nПовторите ввод!";
+    public static final String SEND_DESCRIPTION = "Опишите себя";
     @Autowired
     private DataCache dataCache;
     @Override
@@ -32,11 +34,11 @@ public class AskDescription implements InputMessageHandler {
             userProfileData.setAge(Integer.parseInt(update.getMessage().getText()));
         }catch (NumberFormatException e){
             dataCache.setUsersCurrentBotState(userID,BotState.ASK_DESCRIPTION);
-            return new SendMessage(chatID,"Возраст не может быть с буквами!\nПовторите ввод!");
+            return new SendMessage(chatID, SEND_CORRECT_AGE);
         }
         dataCache.setUsersCurrentBotState(userID,BotState.ASK_PARTNER_GENDER);
         dataCache.saveUserProfileData(userID,dataCache.getUserProfileData(userID));
-        return new SendMessage(chatID, "Опишите себя");
+        return new SendMessage(chatID, SEND_DESCRIPTION);
     }
     @Override
     public BotState getHandlerName() {
