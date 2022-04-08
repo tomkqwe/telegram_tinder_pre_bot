@@ -25,7 +25,7 @@ public class AskPartnerGender implements InputMessageHandler {
     public BotApiMethod<?> handleUpdate(Update update) {
 
         String chatID = UpdateHandler.getChatId(update);
-        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        long userID = UpdateHandler.getId(update);
         String text = UpdateHandler.getText(update);
         User userProfileData = dataCache.getUserProfileData(userID);
         //получаем description, сэтим его юзеру, выкатываем кнопки с

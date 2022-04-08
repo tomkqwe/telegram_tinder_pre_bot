@@ -28,7 +28,7 @@ public class StartHandler implements InputMessageHandler {
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        long userID = UpdateHandler.getId(update);
         String chatID = UpdateHandler.getChatId(update);
 
         User user = null;
@@ -41,7 +41,8 @@ public class StartHandler implements InputMessageHandler {
         }
         SendMessage sendMessage;
         if (user == null) {
-            sendMessage = new SendMessage();
+            dataCache.getUserProfileData(userID).setId(userID);
+            sendMessage = new SendMessage(chatID,NEED_REGISTRATION);
             sendMessage.setReplyMarkup(InlineKeyBoardSelector.getInlineKeyboardMarkup(getHandlerName()));
         } else {
             sendMessage = new SendMessage(chatID, USE_MAIN_MENU);

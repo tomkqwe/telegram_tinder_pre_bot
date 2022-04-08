@@ -24,7 +24,7 @@ public class AskDescription implements InputMessageHandler {
     public BotApiMethod<?> handleUpdate(Update update) {
         Message message = update.getMessage();
         String chatID = UpdateHandler.getChatId(update);
-        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        long userID = UpdateHandler.getId(update);
 
         User userProfileData = dataCache.getUserProfileData(userID);
         //Получаем строку в которой должно быть число, если пользователь вводит буквы,

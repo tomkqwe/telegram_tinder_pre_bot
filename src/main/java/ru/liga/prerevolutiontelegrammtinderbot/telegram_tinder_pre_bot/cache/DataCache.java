@@ -5,11 +5,11 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.Us
 
 
 public interface DataCache {
-    void setUsersCurrentBotState(int userId, BotState botState);
+    void setUsersCurrentBotState(long userId, BotState botState);
 
-    BotState getUsersCurrentBotState(int userId);
+    BotState getUsersCurrentBotState(long userId);
 
-    User getUserProfileData(int userId);
+    User getUserProfileData(long userId);
 
-    void saveUserProfileData(int userId, User userProfileData);
+    void saveUserProfileData(long userId, User userProfileData);
 }

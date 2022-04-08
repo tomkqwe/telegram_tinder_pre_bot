@@ -1,19 +1,22 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
-@AllArgsConstructor
+@Setter
+@Getter
 @NoArgsConstructor
-@Data
+@AllArgsConstructor
+@ToString
 public class User {
-    private int id;
+    private Long id;
     private String name;
     //потом заменим на энамы, яхз как их в пост запросе передать
     private String sex;
@@ -21,20 +24,21 @@ public class User {
     private String description;
     private String partnerSex;
     //сэты из видео, таблички он там делает в ручную
-    private Set<User> whoChooseMe = new HashSet<>();
-    private Set<User> whoDidIChoose = new HashSet<>();
+
+    private Set<User> weLike = new HashSet<>();
+
+    private Set<User> whoLikedMe = new HashSet<>();
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", sex='" + sex + '\'' +
-                ", age=" + age +
-                ", description='" + description + '\'' +
-                ", partnerSex='" + partnerSex + '\'' +
-                ", whoChooseMe=" + whoChooseMe +
-                ", whoDidIChoose=" + whoDidIChoose +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

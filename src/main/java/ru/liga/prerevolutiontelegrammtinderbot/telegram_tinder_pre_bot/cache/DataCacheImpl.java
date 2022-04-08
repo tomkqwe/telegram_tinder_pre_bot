@@ -1,6 +1,5 @@
 package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache;
 
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
@@ -10,25 +9,25 @@ import java.util.Map;
 @Component
 public class DataCacheImpl implements DataCache {
 
-    private Map<Integer, BotState> usersBotStates = new HashMap<>();
-    private Map<Integer, User> usersProfileData = new HashMap<>();
+    private Map<Long, BotState> usersBotStates = new HashMap<>();
+    private Map<Long, User> usersProfileData = new HashMap<>();
 
     @Override
-    public void setUsersCurrentBotState(int userId, BotState botState) {
+    public void setUsersCurrentBotState(long userId, BotState botState) {
         usersBotStates.put(userId,botState);
     }
 
     @Override
-    public BotState getUsersCurrentBotState(int userId) {
+    public BotState getUsersCurrentBotState(long userId) {
         BotState botState = usersBotStates.get(userId);
         if (botState == null){
-            botState = BotState.ASK_GENDER;
+            botState = BotState.START_STATE;
         }
         return botState;
     }
 
     @Override
-    public User getUserProfileData(int userId) {
+    public User getUserProfileData(long userId) {
         User user = usersProfileData.get(userId);
         if (user == null){
             user = new User();
@@ -37,7 +36,7 @@ public class DataCacheImpl implements DataCache {
     }
 
     @Override
-    public void saveUserProfileData(int userId, User userProfileData) {
+    public void saveUserProfileData(long userId, User userProfileData) {
         usersProfileData.put(userId,userProfileData);
     }
 }

@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.cache.DataCache;
+import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.UpdateHandler;
 
 @Data
 @Component
@@ -42,16 +43,8 @@ public class MyTelegramFacade {
     }
 
     private BotApiMethod<?> handleInputMessage(Update update) {
-        int id;
-        String text;
-        if (update.hasCallbackQuery()) {
-            id = Math.toIntExact(update.getCallbackQuery().getFrom().getId());
-            text = update.getCallbackQuery().getData();
-        } else {
-            Message message = update.getMessage();
-            text = message.getText();
-            id = Math.toIntExact(message.getFrom().getId());
-        }
+        long id = UpdateHandler.getId(update);
+        String text = UpdateHandler.getText(update);
         BotState botState;
         switch (text) {
             case START:

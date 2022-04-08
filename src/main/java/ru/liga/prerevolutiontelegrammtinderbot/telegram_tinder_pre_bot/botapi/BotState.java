@@ -17,6 +17,8 @@ public enum BotState {
     GET_SEARCHING,
 
     GET_FAVORITES,
+    CHECK_WE_LIKE_LIST,
+    CHECK_WHO_LIKED_ME_LIST,
 
 
     SHOW_MAIN_MENU,

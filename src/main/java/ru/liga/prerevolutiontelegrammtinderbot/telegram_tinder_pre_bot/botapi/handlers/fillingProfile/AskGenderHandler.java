@@ -24,7 +24,7 @@ public class AskGenderHandler implements InputMessageHandler {
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        long userID = UpdateHandler.getId(update);
         String chatId = UpdateHandler.getChatId(update);
 
 //Начинается заполнение анкеты, задаем вопрос и прекрепляем кнопки

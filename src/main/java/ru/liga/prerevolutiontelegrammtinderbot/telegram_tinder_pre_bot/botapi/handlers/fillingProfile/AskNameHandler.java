@@ -25,7 +25,7 @@ public class AskNameHandler implements InputMessageHandler {
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        long userID = UpdateHandler.getId(update);
 
         String chatId = UpdateHandler.getChatId(update);
 

@@ -32,7 +32,7 @@ public class ShowProfileFilledHandler implements InputMessageHandler {
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        long userID = UpdateHandler.getId(update);
         String chatId = UpdateHandler.getChatId(update);
 
         //получаем callbackquery с partnerGender, сэтим его в юзера,
@@ -61,6 +61,7 @@ public class ShowProfileFilledHandler implements InputMessageHandler {
                         "Кого ищем: %s%n", "Данные по вашей анкете", userProfileData.getName(), userProfileData.getAge(), userProfileData.getSex(), userProfileData.getDescription(),
                 userProfileData.getPartnerSex()));
         smWithMenu.setReplyMarkup(MainMenuKeyboard.getMainMenuKeyboard());
+        userProfileData.setId(userID);
         communication.saveUser(userProfileData);
         return smWithMenu;
     }

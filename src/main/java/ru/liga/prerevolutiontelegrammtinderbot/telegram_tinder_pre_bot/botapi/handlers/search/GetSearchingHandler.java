@@ -14,7 +14,6 @@ import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.keyboards
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.Communication;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.utils.UpdateHandler;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,21 +28,20 @@ public class GetSearchingHandler implements InputMessageHandler {
     @Autowired
     private Communication communication;
     private int index = 0;
-    private final HashSet<User> myChoose = new HashSet<>();
 
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
-        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        long userID = UpdateHandler.getId(update);
         String chatID = UpdateHandler.getChatId(update);
         String text = UpdateHandler.getText(update);
+
         User currentUser = communication.getUser(userID);
         List<User> allUsers = communication.getAllUsers();
         List<User> users = filterList(userID, allUsers);
         if (text.equals(LIKE)){
-            myChoose.add(users.get(index));
-             currentUser.getWhoDidIChoose().add(users.get(index));
-            communication.updateUser(currentUser);
+            User target = users.get(index);
+            communication.likeRequest(currentUser.getId(),target.getId());
             index++;
             if (index == users.size()) {
                 index = 0;
@@ -68,7 +66,7 @@ public class GetSearchingHandler implements InputMessageHandler {
         return sendMessage;
     }
 
-    private List<User> filterList(int userID, List<User> allUsers) {
+    private List<User> filterList(long userID, List<User> allUsers) {
         return allUsers
                 .stream()
                 .filter(user -> user.getId() != userID)

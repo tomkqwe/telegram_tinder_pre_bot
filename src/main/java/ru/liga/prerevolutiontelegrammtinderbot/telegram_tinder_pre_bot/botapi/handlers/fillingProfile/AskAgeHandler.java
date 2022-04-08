@@ -23,7 +23,7 @@ public class AskAgeHandler implements InputMessageHandler {
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
 
-        int userID = Math.toIntExact(UpdateHandler.getId(update));
+        long userID = UpdateHandler.getId(update);
         String text= UpdateHandler.getText(update);
         String chatID = UpdateHandler.getChatId(update);
 
