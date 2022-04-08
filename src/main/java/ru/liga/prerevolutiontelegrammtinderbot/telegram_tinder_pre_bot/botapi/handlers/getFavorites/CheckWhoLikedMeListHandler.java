@@ -34,9 +34,13 @@ public class CheckWhoLikedMeListHandler implements InputMessageHandler {
                 .stream()
                 .distinct()
                 .collect(Collectors.toList());
-        if (whoLikedMe.size() == 0){
-            SendMessage sendMessage = new SendMessage(chatId, VOID_HERE);
-            sendMessage.setReplyMarkup(WeLikeKeayboard.getWeLikeKeayboard());
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setReplyMarkup(WeLikeKeayboard.getWeLikeKeayboard());
+
+
+        if (whoLikedMe.size() == 0) {
+            sendMessage.setText(VOID_HERE);
             return sendMessage;
         }
         int indexInWhoLikedMe = new GetFavoritesHandler().getIndex();
@@ -48,8 +52,7 @@ public class CheckWhoLikedMeListHandler implements InputMessageHandler {
                 }
                 User user = whoLikedMe.get(indexInWhoLikedMe);
                 String resultToOutput = user.toString();
-                SendMessage sendMessage = new SendMessage(chatId, resultToOutput);
-                sendMessage.setReplyMarkup(WeLikeKeayboard.getWeLikeKeayboard());
+                sendMessage.setText(resultToOutput);
                 return sendMessage;
             }
             case WeLikeKeayboard.PREVIOUS: {
@@ -59,19 +62,17 @@ public class CheckWhoLikedMeListHandler implements InputMessageHandler {
                 }
                 User user = whoLikedMe.get(indexInWhoLikedMe);
                 String resultToOutput = user.toString();
-                SendMessage sendMessage = new SendMessage(chatId, resultToOutput);
-                sendMessage.setReplyMarkup(WeLikeKeayboard.getWeLikeKeayboard());
+                sendMessage.setText(resultToOutput);
                 return sendMessage;
             }
             case WeLikeKeayboard.BACK:
-                SendMessage sendMessage = new SendMessage(chatId, WeLikeHandler.FAVORITES);
+                sendMessage.setText(WeLikeHandler.FAVORITES);
                 sendMessage.setReplyMarkup(FavoritesKeyboard.getFavoritesKeyboard());
                 dataCache.setUsersCurrentBotState(id, BotState.GET_FAVORITES);
                 return sendMessage;
             default:
-                SendMessage message = new SendMessage(chatId, VOID_HERE);
-                message.setReplyMarkup(WeLikeKeayboard.getWeLikeKeayboard());
-                return message;
+                sendMessage.setText(VOID_HERE);
+                return sendMessage;
         }
 
     }

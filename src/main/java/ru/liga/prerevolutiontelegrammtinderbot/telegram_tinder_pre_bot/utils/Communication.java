@@ -21,6 +21,7 @@ public class Communication {
     public static final String WE_LIKE = "weLike/";
     public static final String DELIMITER = "_";
     public static final String WHO_LIKED_ME = "whoLikedMe/";
+    public static final String SYMPATHY = "sympathy/";
     private final String URL = "http://localhost:8888/api/users/";
     @Autowired
     private RestTemplate restTemplate;
@@ -60,6 +61,10 @@ public class Communication {
 
     public List<User> getWhoLikedMe(Long userID) {
         ResponseEntity<User[]> forEntity = restTemplate.getForEntity(URL + WHO_LIKED_ME + userID, User[].class);
+        return Arrays.asList(forEntity.getBody());
+    }
+    public List<User> getSympathy(Long userID){
+        ResponseEntity<User[]> forEntity = restTemplate.getForEntity(URL + SYMPATHY + userID, User[].class);
         return Arrays.asList(forEntity.getBody());
     }
 

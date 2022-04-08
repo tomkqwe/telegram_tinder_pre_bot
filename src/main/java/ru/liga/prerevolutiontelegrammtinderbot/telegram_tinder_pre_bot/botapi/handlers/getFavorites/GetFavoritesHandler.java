@@ -20,16 +20,16 @@ import java.util.List;
 @Component
 public class GetFavoritesHandler implements InputMessageHandler {
     public static final String USE_MAIN_MENU = "Воспользуйтесь главным меню";
-    public static final String TEST_STRING = "Ne pridumal cho TUT DOLJNO BIT";
+    public static final String MENU_FAVORITES = "Меню Любимцы";
     public static final String BACK = "Назад";
     public static final String YOURCHOOSE = "Нравятся вам";
     public static final String WHO_LIKED_ME = "Выбрали вас";
+    public static final String SYMPATHY = "Взаимный выбор";
+    private final int index = 0;
     @Autowired
     private DataCache dataCache;
     @Autowired
     private Communication communication;
-
-    private final int index = 0;
 
     public int getIndex() {
         return index;
@@ -42,6 +42,7 @@ public class GetFavoritesHandler implements InputMessageHandler {
         long id = UpdateHandler.getId(update);
         List<User> weLike = communication.getWeLike(id);
         List<User> whoLikedMe = communication.getWhoLikedMe(id);
+        List<User> sympathy = communication.getSympathy(id);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setReplyMarkup(WeLikeKeayboard.getWeLikeKeayboard());
@@ -73,13 +74,25 @@ public class GetFavoritesHandler implements InputMessageHandler {
                 return sendMessage;
 
             }
+            case SYMPATHY: {
+                if (sympathy.isEmpty()) {
+                    sendMessage.setText(CheckWhoLikedMeListHandler.VOID_HERE);
+                    sendMessage.setReplyMarkup(FavoritesKeyboard.getFavoritesKeyboard());
+                    return sendMessage;
+                }
+                User user = sympathy.get(index);
+                String resultToOutput = user.toString();
+                sendMessage.setText(resultToOutput);
+                dataCache.setUsersCurrentBotState(id, BotState.CHECK_SYMPATHY_LIST);
+                return sendMessage;
+            }
             case BACK: {
                 sendMessage.setText(USE_MAIN_MENU);
                 sendMessage.setReplyMarkup(MainMenuKeyboard.getMainMenuKeyboard());
                 return sendMessage;
             }
         }
-        sendMessage.setText(TEST_STRING);
+        sendMessage.setText(MENU_FAVORITES);
         sendMessage.setReplyMarkup(FavoritesKeyboard.getFavoritesKeyboard());
         return sendMessage;
     }

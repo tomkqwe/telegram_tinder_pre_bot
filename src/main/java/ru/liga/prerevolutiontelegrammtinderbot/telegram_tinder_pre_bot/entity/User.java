@@ -23,12 +23,6 @@ public class User {
     private Integer age;
     private String description;
     private String partnerSex;
-    //сэты из видео, таблички он там делает в ручную
-
-    private Set<User> weLike = new HashSet<>();
-
-    private Set<User> whoLikedMe = new HashSet<>();
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
