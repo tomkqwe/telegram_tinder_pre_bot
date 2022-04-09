@@ -23,6 +23,7 @@ public class GetSearchingHandler implements InputMessageHandler {
     public static final String NEXT = "Следующий❌";
     public static final String BACK = "Назад";
     public static final String USE_MAIN_MENU = "Воспользуйтесь главным меню";
+    public static final String NOBODY_HERE = "Тут никого нет\uD83D\uDE2D";
     @Autowired
     private DataCache dataCache;
     @Autowired
@@ -37,29 +38,32 @@ public class GetSearchingHandler implements InputMessageHandler {
         String text = UpdateHandler.getText(update);
 
         User currentUser = communication.getUser(userID);
-        List<User> allUsers = communication.getAllUsers();
-        List<User> users = filterList(userID, allUsers);
-        if (text.equals(LIKE)){
-            User target = users.get(index);
-            communication.likeRequest(currentUser.getId(),target.getId());
-            index++;
-            if (index == users.size()) {
-                index = 0;
+        List<User> allUsersToSearch = communication.getUsersToSearch(userID);
+            if (allUsersToSearch.isEmpty()){
+                return new SendMessage(chatID, NOBODY_HERE);
             }
-        }
-       else if (text.equals(NEXT)) {
-            index++;
-            if (index == users.size()) {
-                index = 0;
-            }
-        }
-        else if (text.equals(BACK)){
-            SendMessage sendMessage = new SendMessage(chatID, USE_MAIN_MENU);
-            sendMessage.setReplyMarkup(MainMenuKeyboard.getMainMenuKeyboard());
-            return sendMessage;
+        switch (text) {
+            case LIKE:
+                User target = allUsersToSearch.get(index);
+                communication.likeRequest(currentUser.getId(), target.getId());
+                index++;
+                if (index == allUsersToSearch.size()) {
+                    index = 0;
+                }
+                break;
+            case NEXT:
+                index++;
+                if (index == allUsersToSearch.size()) {
+                    index = 0;
+                }
+                break;
+            case BACK:
+                SendMessage sendMessage = new SendMessage(chatID, USE_MAIN_MENU);
+                sendMessage.setReplyMarkup(MainMenuKeyboard.getMainMenuKeyboard());
+                return sendMessage;
         }
 
-        User user = users.get(index);
+        User user = allUsersToSearch.get(index);
         String changeThisShitToPicture = user.toString();
         SendMessage sendMessage = new SendMessage(chatID, changeThisShitToPicture);
         sendMessage.setReplyMarkup(SearchKeyboard.getSearchKeyboard());

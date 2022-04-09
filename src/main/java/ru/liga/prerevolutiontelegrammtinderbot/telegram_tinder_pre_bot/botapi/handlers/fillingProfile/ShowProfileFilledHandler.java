@@ -48,7 +48,6 @@ public class ShowProfileFilledHandler implements InputMessageHandler {
             userProfileData.setPartnerSex(data);
             sendMessage = new SendMessage(chatId, ANKET_COMPLITE);
             dataCache.saveUserProfileData(userID, dataCache.getUserProfileData(userID));
-//            dataCache.setUsersCurrentBotState(userID,BotState.SHOW_MAIN_MENU);
 
         } else {
             sendMessage = new SendMessage(chatId, GO_PRESS_BUTTON);

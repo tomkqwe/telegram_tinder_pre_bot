@@ -25,6 +25,8 @@ public class CheckWhoLikedMeListHandler implements InputMessageHandler {
     @Autowired
     private Communication communication;
 
+    private int index = 0;
+
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
         String chatId = UpdateHandler.getChatId(update);
@@ -43,24 +45,23 @@ public class CheckWhoLikedMeListHandler implements InputMessageHandler {
             sendMessage.setText(VOID_HERE);
             return sendMessage;
         }
-        int indexInWhoLikedMe = new GetFavoritesHandler().getIndex();
         switch (text) {
             case WeLikeKeayboard.NEXT: {
-                indexInWhoLikedMe++;
-                if (indexInWhoLikedMe == whoLikedMe.size()) {
-                    indexInWhoLikedMe = 0;
+                index++;
+                if (index == whoLikedMe.size()) {
+                    index = 0;
                 }
-                User user = whoLikedMe.get(indexInWhoLikedMe);
+                User user = whoLikedMe.get(index);
                 String resultToOutput = user.toString();
                 sendMessage.setText(resultToOutput);
                 return sendMessage;
             }
             case WeLikeKeayboard.PREVIOUS: {
-                indexInWhoLikedMe--;
-                if (indexInWhoLikedMe == -1) {
-                    indexInWhoLikedMe = whoLikedMe.size() - 1;
+                index--;
+                if (index == -1) {
+                    index = whoLikedMe.size() - 1;
                 }
-                User user = whoLikedMe.get(indexInWhoLikedMe);
+                User user = whoLikedMe.get(index);
                 String resultToOutput = user.toString();
                 sendMessage.setText(resultToOutput);
                 return sendMessage;

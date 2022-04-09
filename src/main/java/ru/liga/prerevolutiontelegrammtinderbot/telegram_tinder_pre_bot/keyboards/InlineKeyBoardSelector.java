@@ -11,11 +11,8 @@ public class InlineKeyBoardSelector {
 
     public static final String LETS_GO = "Поехали";
     public static final String SUDAR = "Сударь";
-    public static final String MANS = "Мужчин";
     public static final String SUDARINA = "Сударыня";
-    public static final String WOMENS = "Женщин";
     public static final String ALL = "Все";
-    public static final String FIND_ALL = "Всех";
 
     public static InlineKeyboardMarkup getInlineKeyboardMarkup(BotState botState) {
         InlineKeyboardMarkup inlineKeyboardMarkup = null;
@@ -37,12 +34,12 @@ public class InlineKeyBoardSelector {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         InlineKeyboardButton inlineKeyboardSexButton1 = new InlineKeyboardButton();
         inlineKeyboardSexButton1.setText(SUDAR);
-        inlineKeyboardSexButton1.setCallbackData(MANS);
+        inlineKeyboardSexButton1.setCallbackData(SUDAR);
         InlineKeyboardButton inlineKeyboardSexButton2 = new InlineKeyboardButton();
         inlineKeyboardSexButton2.setText(SUDARINA);
-        inlineKeyboardSexButton2.setCallbackData(WOMENS);
+        inlineKeyboardSexButton2.setCallbackData(SUDARINA);
         InlineKeyboardButton inlineKeyboardSexButton3 = new InlineKeyboardButton();
-        inlineKeyboardSexButton3.setText(FIND_ALL);
+        inlineKeyboardSexButton3.setText(ALL);
         inlineKeyboardSexButton3.setCallbackData(ALL);
         List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
         keyboardButtonsRow.add(inlineKeyboardSexButton1);

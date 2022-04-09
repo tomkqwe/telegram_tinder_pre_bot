@@ -22,6 +22,7 @@ public class GetSympathyHandler implements InputMessageHandler {
     private DataCache dataCache;
     @Autowired
     private Communication communication;
+    private int index = 0;
 
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
@@ -34,24 +35,24 @@ public class GetSympathyHandler implements InputMessageHandler {
         sendMessage.setChatId(chatId);
         sendMessage.setReplyMarkup(WeLikeKeayboard.getWeLikeKeayboard());
 
-        int indexInSympathy = new GetFavoritesHandler().getIndex();
+
         switch (text) {
             case WeLikeKeayboard.NEXT: {
-                indexInSympathy++;
-                if (indexInSympathy == sympathy.size()) {
-                    indexInSympathy = 0;
+                index++;
+                if (index == sympathy.size()) {
+                    index = 0;
                 }
-                User user = sympathy.get(indexInSympathy);
+                User user = sympathy.get(index);
                 String resultToOutput = user.toString();
                 sendMessage.setText(resultToOutput);
                 return sendMessage;
             }
             case WeLikeKeayboard.PREVIOUS: {
-                indexInSympathy--;
-                if (indexInSympathy == -1) {
-                    indexInSympathy = sympathy.size() - 1;
+                index--;
+                if (index == -1) {
+                    index = sympathy.size() - 1;
                 }
-                User user = sympathy.get(indexInSympathy);
+                User user = sympathy.get(index);
                 String resultToOutput = user.toString();
                 sendMessage.setText(resultToOutput);
                 return sendMessage;

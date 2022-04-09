@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.yaml.snakeyaml.events.Event;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 
 import java.util.Arrays;
@@ -47,6 +48,11 @@ public class Communication {
         restTemplate.put(URL, user);
         log.info("user with ID " + id + " was updated");
     }
+    public List<User> getUsersToSearch(Long userID){
+        ResponseEntity<User[]> forEntity = restTemplate.getForEntity(URL + "filtredListToSearch/" + userID, User[].class);
+        log.info("getUsersToSearch");
+        return Arrays.asList(forEntity.getBody());
+    }
 
     public void likeRequest(long current, long target) {
         List<Long> longs = Arrays.asList(current, target);
@@ -56,15 +62,18 @@ public class Communication {
 
     public List<User> getWeLike(Long userID) {
         ResponseEntity<User[]> responseEntity = restTemplate.getForEntity(URL + WE_LIKE + userID, User[].class);
+        log.info("getWeLike");
         return Arrays.asList(responseEntity.getBody());
     }
 
     public List<User> getWhoLikedMe(Long userID) {
         ResponseEntity<User[]> forEntity = restTemplate.getForEntity(URL + WHO_LIKED_ME + userID, User[].class);
+        log.info("getWhoLikedMe");
         return Arrays.asList(forEntity.getBody());
     }
     public List<User> getSympathy(Long userID){
         ResponseEntity<User[]> forEntity = restTemplate.getForEntity(URL + SYMPATHY + userID, User[].class);
+        log.info("getSympathy");
         return Arrays.asList(forEntity.getBody());
     }
 

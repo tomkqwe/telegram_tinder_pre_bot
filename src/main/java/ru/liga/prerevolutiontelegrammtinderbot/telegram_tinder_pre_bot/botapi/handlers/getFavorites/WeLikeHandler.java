@@ -25,16 +25,14 @@ public class WeLikeHandler implements InputMessageHandler {
     @Autowired
     private Communication communication;
 
+    private int index = 0;
+
     @Override
     public BotApiMethod<?> handleUpdate(Update update) {
         String chatId = UpdateHandler.getChatId(update);
         String text = UpdateHandler.getText(update);
         long id = UpdateHandler.getId(update);
-        List<User> weLike = communication
-                .getWeLike(id)
-                .stream()
-                .distinct()
-                .collect(Collectors.toList());
+        List<User> weLike = communication.getWeLike(id);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setReplyMarkup(WeLikeKeayboard.getWeLikeKeayboard());
@@ -44,25 +42,23 @@ public class WeLikeHandler implements InputMessageHandler {
             sendMessage.setText(CheckWhoLikedMeListHandler.VOID_HERE);
             return sendMessage;
         }
-
-        int indexInWeLike = new GetFavoritesHandler().getIndex();
         switch (text) {
             case WeLikeKeayboard.NEXT: {
-                indexInWeLike++;
-                if (indexInWeLike == weLike.size()) {
-                    indexInWeLike = 0;
+                index++;
+                if (index == weLike.size()) {
+                    index = 0;
                 }
-                User user = weLike.get(indexInWeLike);
+                User user = weLike.get(index);
                 String resultToOutput = user.toString();
                 sendMessage.setText(resultToOutput);
                 return sendMessage;
             }
             case WeLikeKeayboard.PREVIOUS: {
-                indexInWeLike--;
-                if (indexInWeLike == -1) {
-                    indexInWeLike = weLike.size() - 1;
+                index--;
+                if (index == -1) {
+                    index = weLike.size() - 1;
                 }
-                User user = weLike.get(indexInWeLike);
+                User user = weLike.get(index);
                 String resultToOutput = user.toString();
                 sendMessage.setText(resultToOutput);
                 return sendMessage;
