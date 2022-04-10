@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -28,7 +29,7 @@ public class MyTelegramFacade {
         this.userDataCache = userDataCache;
     }
 
-    public BotApiMethod<?> handleUpdate(Update update) {
+    public PartialBotApiMethod<?> handleUpdate(Update update) {
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
             log.info("New message from User:{}, userId: {}, chatId: {},  with text: {}",
@@ -42,7 +43,7 @@ public class MyTelegramFacade {
         return handleInputMessage(update);
     }
 
-    private BotApiMethod<?> handleInputMessage(Update update) {
+    private PartialBotApiMethod<?> handleInputMessage(Update update) {
         long id = UpdateHandler.getId(update);
         String text = UpdateHandler.getText(update);
         BotState botState;
@@ -67,7 +68,7 @@ public class MyTelegramFacade {
         }
         userDataCache.setUsersCurrentBotState(id, botState);
 
-        return botStateContext.processInputMessage(botState, update);
+        return  botStateContext.processInputMessage(botState, update);
     }
 
 

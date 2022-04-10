@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.yaml.snakeyaml.events.Event;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.entity.User;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class Communication {
     public static final String DELIMITER = "_";
     public static final String WHO_LIKED_ME = "whoLikedMe/";
     public static final String SYMPATHY = "sympathy/";
+    public static final String IMAGE = "image/";
     private final String URL = "http://localhost:8888/api/users/";
     @Autowired
     private RestTemplate restTemplate;
@@ -75,6 +78,11 @@ public class Communication {
         ResponseEntity<User[]> forEntity = restTemplate.getForEntity(URL + SYMPATHY + userID, User[].class);
         log.info("getSympathy");
         return Arrays.asList(forEntity.getBody());
+    }
+
+    public File getTextImageMaker(String text){
+        HttpEntity<String> stringHttpEntity = new HttpEntity<>(text);
+        return  restTemplate.postForObject(URL+ IMAGE,stringHttpEntity,File.class);
     }
 
 

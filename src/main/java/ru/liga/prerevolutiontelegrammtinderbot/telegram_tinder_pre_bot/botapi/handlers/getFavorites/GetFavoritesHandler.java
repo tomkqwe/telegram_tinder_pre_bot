@@ -2,7 +2,7 @@ package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.h
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
@@ -36,7 +36,7 @@ public class GetFavoritesHandler implements InputMessageHandler {
     }
 
     @Override
-    public BotApiMethod<?> handleUpdate(Update update) {
+    public PartialBotApiMethod<?> handleUpdate(Update update) {
         String chatId = UpdateHandler.getChatId(update);
         String text = UpdateHandler.getText(update);
         long id = UpdateHandler.getId(update);

@@ -3,10 +3,8 @@ package ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.h
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.BotState;
 import ru.liga.prerevolutiontelegrammtinderbot.telegram_tinder_pre_bot.botapi.InputMessageHandler;
@@ -30,7 +28,7 @@ public class GetProfileFilledHandler implements InputMessageHandler {
     private Communication communication;
 
     @Override
-    public BotApiMethod<?> handleUpdate(Update update) {
+    public PartialBotApiMethod<?> handleUpdate(Update update) {
         long userID = UpdateHandler.getId(update);
         String chatID = UpdateHandler.getChatId(update);
         String text = UpdateHandler.getText(update);
